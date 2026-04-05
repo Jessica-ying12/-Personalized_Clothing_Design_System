@@ -1,0 +1,42 @@
+{
+  "app": {
+    "title": "LivHome"
+  },
+  "home": {
+    "input_hint": "输入消息..."
+  },
+  "test": {
+    "title": "网络测试",
+    "fetch_post": "请求数据",
+    "empty_hint": "点击上方按钮发起请求",
+    "auth_section": "Supabase Auth 测试",
+    "email_hint": "邮箱",
+    "password_hint": "密码",
+    "sign_in": "登录",
+    "sign_out": "退出登录",
+    "sign_up": "注册",
+    "send_otp": "发送验证码",
+    "verify_otp": "验证并注册",
+    "otp_hint": "8位验证码",
+    "switch_to_sign_up": "没有账号？注册",
+    "switch_to_sign_in": "已有账号？登录",
+    "auth_status_signed_in": "已登录",
+    "auth_status_signed_out": "未登录"
+  },
+  "nav": {
+    "device": "设备",
+    "chat": "聊天",
+    "profile": "我的"
+  },
+  "common": {
+    "confirm": "确定",
+    "cancel": "取消",
+    "delete": "删除",
+    "deleted_confirm": "已确认删除"
+  },
+  "test_dialog": {
+    "title": "删除确认",
+    "content": "确定要删除这条记录吗？此操作不可撤销。",
+    "button": "测试弹窗"
+  }
+}

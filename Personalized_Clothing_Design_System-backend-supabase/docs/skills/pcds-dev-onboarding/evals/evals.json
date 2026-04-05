@@ -1,0 +1,29 @@
+﻿{
+  "skill_name": "pcds-dev-onboarding",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我是新同学，刚接手这个仓库，请你给我从安装 Git/Supabase/Deno 到跑通 auth-api 测试的完整步骤。",
+      "expected_output": "提供从安装、自检、初始化到测试与本地调试的编号教程，并包含预期结果与失败处理。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "我让 AI 智能体接手这个项目，想给它一份强制 onboarding 清单，避免它瞎改历史迁移。",
+      "expected_output": "输出 AI 接手约束：先读哪些文档、TDD、迁移规则、生产禁令、提交前命令。",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "我在 mac 上装完后出现 supabase command not found，按本项目教程应该怎么排查？",
+      "expected_output": "给出基于项目文档的排障路径，覆盖安装命令与版本自检步骤。",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "请生成一个‘新手 30 分钟上手 Personalized_Clothing_Design_System-backend 后端’教程，要求明确哪些命令只能本地执行、哪些生产禁止。",
+      "expected_output": "给出分步骤教程，并清晰区分本地可执行与生产禁止动作（如 db reset）。",
+      "files": []
+    }
+  ]
+}

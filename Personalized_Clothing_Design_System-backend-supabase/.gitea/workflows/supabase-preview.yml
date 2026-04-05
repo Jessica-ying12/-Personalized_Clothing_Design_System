@@ -1,0 +1,53 @@
+name: supabase-preview
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      SUPABASE_PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
+      SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+      ENABLE_DB_RESET: "0"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Supabase CLI
+        run: |
+          curl -fsSL https://supabase.com/install.sh | sh
+          echo "$HOME/.supabase/bin" >> $GITHUB_PATH
+
+      - name: Install Deno
+        run: |
+          curl -fsSL https://deno.land/install.sh | sh
+          echo "$HOME/.deno/bin" >> $GITHUB_PATH
+
+      - name: Supabase Login
+        run: supabase login --token "$SUPABASE_ACCESS_TOKEN"
+
+      - name: Run TDD tests for changed functions
+        run: ./build.sh "$SUPABASE_PROJECT_REF" test-functions changed
+
+      - name: Sync preview branch
+        shell: bash
+        run: |
+          output="$(./build.sh auto sync-branch)"
+          echo "$output"
+          preview_ref="$(echo "$output" | awk -F= '/^SYNCED_PROJECT_REF=/{print $2}')"
+          if [[ -z "$preview_ref" ]]; then
+            echo "Failed to parse preview project ref"
+            exit 1
+          fi
+          echo "PREVIEW_REF=$preview_ref" >> "$GITHUB_ENV"
+
+      - name: Push migrations to preview
+        run: ./build.sh "$PREVIEW_REF" db-push
+
+      - name: Deploy functions to preview
+        run: ./build.sh "$PREVIEW_REF" deploy-functions-all

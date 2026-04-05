@@ -1,0 +1,29 @@
+﻿{
+  "skill_name": "pcds-dev-standards",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我们准备新增 devices 表并上线，给我一份符合当前仓库的开发规范，不要泛泛建议，要明确 TDD、SQL 迁移和生产边界。",
+      "expected_output": "输出项目内可执行规范，包含 TDD、迁移目录与命名、RLS/索引、CI 发布边界与禁止事项。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "我想直接改旧的 202603110001_init.sql 比较快，你按本项目规范告诉我应该怎么做才合规。",
+      "expected_output": "明确禁止修改历史迁移，给出新增迁移文件的替代方案，并解释原因与风险。",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "这次只是改 auth-api 接口，给我一版生产级开发规范摘要，要求包含提交前最小验证命令。",
+      "expected_output": "给出与 auth-api 相关的最小规范与命令：deno test、deno check、PR 清单与发布约束。",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "请把 Personalized_Clothing_Design_System-backend 后端的开发规范整理成‘项目结论/执行步骤/风险边界/交付检查’结构输出。",
+      "expected_output": "严格按指定结构输出，内容与仓库文档一致，且具备可执行步骤。",
+      "files": []
+    }
+  ]
+}

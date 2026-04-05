@@ -1,0 +1,3 @@
+project = "personalized-clothing-design-system-backend"
+supabase_config = "supabase/config.toml"
+default_region = "ap-southeast-1"

@@ -1,0 +1,42 @@
+{
+  "app": {
+    "title": "LivHome"
+  },
+  "home": {
+    "input_hint": "Type a message..."
+  },
+  "test": {
+    "title": "Network Test",
+    "fetch_post": "Fetch Post",
+    "empty_hint": "Tap the button above to fetch data",
+    "auth_section": "Supabase Auth Test",
+    "email_hint": "Email",
+    "password_hint": "Password",
+    "sign_in": "Sign In",
+    "sign_out": "Sign Out",
+    "sign_up": "Sign Up",
+    "send_otp": "Send Code",
+    "verify_otp": "Verify & Sign Up",
+    "otp_hint": "8-digit code",
+    "switch_to_sign_up": "No account? Sign up",
+    "switch_to_sign_in": "Have an account? Sign in",
+    "auth_status_signed_in": "Signed in",
+    "auth_status_signed_out": "Not signed in"
+  },
+  "nav": {
+    "device": "Device",
+    "chat": "Chat",
+    "profile": "Profile"
+  },
+  "common": {
+    "confirm": "OK",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "deleted_confirm": "Deleted"
+  },
+  "test_dialog": {
+    "title": "Delete Confirmation",
+    "content": "Are you sure you want to delete this record? This action cannot be undone.",
+    "button": "Test Dialog"
+  }
+}

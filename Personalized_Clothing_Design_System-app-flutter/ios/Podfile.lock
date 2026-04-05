@@ -1,0 +1,49 @@
+PODS:
+  - Flutter (1.0.0)
+  - path_provider_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
+  - SDWebImage (5.19.2):
+    - SDWebImage/Core (= 5.19.2)
+  - SDWebImage/Core (5.19.2)
+  - sqflite_darwin (0.0.4):
+    - Flutter
+    - FlutterMacOS
+  - unimp/Core (4.75):
+    - SDWebImage (= 5.19.2)
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
+  - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
+  - unimp/Core (from `https://gitcode.com/dcloud/unimpsdk-ios.git`)
+
+SPEC REPOS:
+  trunk:
+    - SDWebImage
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  path_provider_foundation:
+    :path: ".symlinks/plugins/path_provider_foundation/darwin"
+  sqflite_darwin:
+    :path: ".symlinks/plugins/sqflite_darwin/darwin"
+  unimp:
+    :git: https://gitcode.com/dcloud/unimpsdk-ios.git
+
+CHECKOUT OPTIONS:
+  unimp:
+    :commit: 56b6785b0c7393513ed2e479f9e8d7c51932779e
+    :git: https://gitcode.com/dcloud/unimpsdk-ios.git
+
+SPEC CHECKSUMS:
+  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
+  path_provider_foundation: bb55f6dbba17d0dccd6737fe6f7f34fbd0376880
+  SDWebImage: dfe95b2466a9823cf9f0c6d01217c06550d7b29a
+  sqflite_darwin: 20b2a3a3b70e43edae938624ce550a3cbf66a3d0
+  unimp: a2c1615e46689e269465ecdfb771fd569e7fc258
+
+PODFILE CHECKSUM: 0a24842bf399e650490aef9347df0b8a4d16b0fc
+
+COCOAPODS: 1.16.2

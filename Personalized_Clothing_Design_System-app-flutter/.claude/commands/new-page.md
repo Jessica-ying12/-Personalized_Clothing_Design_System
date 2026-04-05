@@ -1,0 +1,1 @@
+../../docs/skills/new-page.md
