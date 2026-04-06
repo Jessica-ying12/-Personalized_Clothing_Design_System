@@ -15,6 +15,9 @@ export type AuthApiDeps = {
     email: string;
     password: string;
   }) => Promise<{ user: User | null; session: unknown; error: string | null }>;
+  signInWithMagicLink: (email: string) => Promise<{ error: string | null }>;
+  changePassword: (token: string, newPassword: string) => Promise<{ error: string | null }>;
+  resetPassword: (email: string) => Promise<{ error: string | null }>;
   getUserByToken: (token: string) => Promise<{ user: User | null; error: string | null }>;
   getProfileByUserId: (token: string, userId: string) => Promise<{ profile: ProfileRow | null; error: string | null }>;
 };
@@ -128,6 +131,73 @@ async function handleMe(req: Request, deps: AuthApiDeps): Promise<Response> {
   );
 }
 
+async function handleMagicLink(req: Request, deps: AuthApiDeps): Promise<Response> {
+  const payloadResult = await parseJson(req);
+  if (payloadResult.error || !payloadResult.data) {
+    return jsonResponse({ error: payloadResult.error ?? "Invalid payload" }, 400);
+  }
+
+  const email = typeof payloadResult.data.email === "string" ? payloadResult.data.email.trim() : "";
+  if (!email) {
+    return jsonResponse({ error: "email is required" }, 400);
+  }
+
+  const result = await deps.signInWithMagicLink(email);
+  if (result.error) {
+    return jsonResponse({ error: "Failed to send magic link", detail: result.error }, 400);
+  }
+
+  return jsonResponse({ message: "Check your email for login link" }, 200);
+}
+
+async function handleChangePassword(req: Request, deps: AuthApiDeps): Promise<Response> {
+  const authHeader = req.headers.get("Authorization");
+  if (!authHeader?.startsWith("Bearer ")) {
+    return jsonResponse({ error: "Missing or invalid Authorization header" }, 401);
+  }
+
+  const token = authHeader.slice("Bearer ".length).trim();
+  if (!token) {
+    return jsonResponse({ error: "Missing bearer token" }, 401);
+  }
+
+  const payloadResult = await parseJson(req);
+  if (payloadResult.error || !payloadResult.data) {
+    return jsonResponse({ error: payloadResult.error ?? "Invalid payload" }, 400);
+  }
+
+  const newPassword = typeof payloadResult.data.new_password === "string" ? payloadResult.data.new_password : "";
+  if (!newPassword || newPassword.length < 6) {
+    return jsonResponse({ error: "new_password is required and must be at least 6 characters" }, 400);
+  }
+
+  const result = await deps.changePassword(token, newPassword);
+  if (result.error) {
+    return jsonResponse({ error: "Failed to change password", detail: result.error }, 400);
+  }
+
+  return jsonResponse({ message: "Password changed successfully" }, 200);
+}
+
+async function handleResetPassword(req: Request, deps: AuthApiDeps): Promise<Response> {
+  const payloadResult = await parseJson(req);
+  if (payloadResult.error || !payloadResult.data) {
+    return jsonResponse({ error: payloadResult.error ?? "Invalid payload" }, 400);
+  }
+
+  const email = typeof payloadResult.data.email === "string" ? payloadResult.data.email.trim() : "";
+  if (!email) {
+    return jsonResponse({ error: "email is required" }, 400);
+  }
+
+  const result = await deps.resetPassword(email);
+  if (result.error) {
+    return jsonResponse({ error: "Failed to send reset link", detail: result.error }, 400);
+  }
+
+  return jsonResponse({ message: "Check your email for password reset link" }, 200);
+}
+
 export async function handleAuthApi(req: Request, deps: AuthApiDeps): Promise<Response> {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
@@ -156,7 +226,28 @@ export async function handleAuthApi(req: Request, deps: AuthApiDeps): Promise<Re
     return handleMe(req, deps);
   }
 
-  return jsonResponse({ error: "Unknown endpoint", supported: ["/register", "/login", "/me"] }, 404);
+  if (pathname.endsWith("/login-magic-link")) {
+    if (req.method !== "POST") {
+      return jsonResponse({ error: "Method Not Allowed" }, 405);
+    }
+    return handleMagicLink(req, deps);
+  }
+
+  if (pathname.endsWith("/change-password")) {
+    if (req.method !== "POST") {
+      return jsonResponse({ error: "Method Not Allowed" }, 405);
+    }
+    return handleChangePassword(req, deps);
+  }
+
+  if (pathname.endsWith("/reset-password")) {
+    if (req.method !== "POST") {
+      return jsonResponse({ error: "Method Not Allowed" }, 405);
+    }
+    return handleResetPassword(req, deps);
+  }
+
+  return jsonResponse({ error: "Unknown endpoint", supported: ["/register", "/login", "/login-magic-link", "/change-password", "/reset-password", "/me"] }, 404);
 }
 
 export function createRuntimeDeps(): AuthApiDeps {
@@ -194,6 +285,28 @@ export function createRuntimeDeps(): AuthApiDeps {
         password: input.password,
       });
       return { user: data.user, session: data.session, error: error?.message ?? null };
+    },
+    async signInWithMagicLink(email) {
+      const { error } = await anonClient.auth.signInWithOtp({
+        email,
+        options: {
+          emailRedirectTo: `${Deno.env.get("SITE_URL") ?? "http://localhost:3000"}/auth/callback`,
+        },
+      });
+      return { error: error?.message ?? null };
+    },
+    async changePassword(token, newPassword) {
+      const client = createTokenClient(token);
+      const { error } = await client.auth.updateUser({
+        password: newPassword,
+      });
+      return { error: error?.message ?? null };
+    },
+    async resetPassword(email) {
+      const { error } = await anonClient.auth.resetPasswordForEmail(email, {
+        redirectTo: `${Deno.env.get("SITE_URL") ?? "http://localhost:3000"}/auth/reset-password`,
+      });
+      return { error: error?.message ?? null };
     },
     async getUserByToken(token) {
       const client = createTokenClient(token);

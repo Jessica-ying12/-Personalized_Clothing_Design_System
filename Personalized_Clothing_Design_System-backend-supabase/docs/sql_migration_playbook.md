@@ -26,8 +26,8 @@
    - 新增或更新相关测试用例，遵循先测后实现（TDD，适用于所有业务模块）
 3. 本地验证
    - `supabase db reset`
-   - 运行改动范围测试（当前最小基线：`deno test supabase/functions/auth-api`）
-   - 运行改动范围类型检查（当前最小基线：`deno check supabase/functions/auth-api/*.ts`）
+   - 运行改动范围测试：`./build.sh <project_ref> test-functions changed`
+   - 运行改动范围类型检查：各函数目录执行 `deno check *.ts`
 4. Preview 验证
    - 通过 `.gitea/workflows/supabase-preview.yml` 自动执行：
    - 测试 -> `sync-branch` -> `db-push` -> `deploy-functions-all`

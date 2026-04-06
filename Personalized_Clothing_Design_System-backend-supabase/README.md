@@ -68,8 +68,10 @@ supabase functions serve auth-api --env-file .env.example
 5. 运行改动范围测试（当前最小基线）：
 
 ```bash
-deno test supabase/functions/auth-api
+./build.sh <project_ref> test-functions all
 ```
+
+当前已实现的函数：`auth-api`, `profile-api`, `design-options-api`, `flat-design-api`, `design-3d-api`, `storage-api`
 
 ## 生产部署
 
@@ -98,7 +100,7 @@ supabase functions deploy auth-api --no-verify-jwt
 - 新增 SQL 一律放在 `supabase/migrations/`，禁止散落在其它目录
 - 每个版本通过新增迁移文件迭代，禁止修改已执行历史迁移
 - 新表上线必须同批提交：表结构、索引、RLS 策略、必要触发器、类型定义更新
-- 本地先验证：`supabase db reset` + 改动范围内测试 + 类型检查（当前最小基线：`deno test supabase/functions/auth-api` 与 `deno check supabase/functions/auth-api/*.ts`）
+- 本地先验证：`supabase db reset` + 改动范围内测试 + 类型检查（推荐：`./build.sh <project_ref> test-functions all`）
 - 生产只允许通过 CI 执行 `db-push`，并保持 `ENABLE_DB_RESET=0`
 - 提 PR 时使用 `.gitea/PULL_REQUEST_TEMPLATE.md` 勾选 SQL/TDD/发布清单
 - 详细流程见 [docs/sql_migration_playbook.md](docs/sql_migration_playbook.md)
@@ -244,5 +246,5 @@ export SUPABASE_PROJECT_REF=<main_project_ref>
 - 本规范适用于所有业务模块，不限于认证逻辑
 - 所有新增或变更的接口、函数、SQL 逻辑都必须补充对应测试用例
 - 每次改动必须至少执行“改动范围内”的测试与类型检查，确保全绿后再提交
-- 当前仓库提交前最小基线为：`deno test supabase/functions/auth-api`
-- 建议提交前追加执行：`deno check supabase/functions/auth-api/*.ts`
+- 当前仓库提交前最小基线为：`./build.sh <project_ref> test-functions all`
+- 建议提交前追加执行各函数目录的 `deno check *.ts`

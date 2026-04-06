@@ -38,9 +38,9 @@ node --version
 2. 准备配置文件：`cp .env.example .env`、`cp .build.env.example .build.env`
 3. 启动本地 Supabase：`supabase start`
 4. 重建并应用迁移：`supabase db reset`
-5. 运行改动范围测试（当前最小基线：`deno test supabase/functions/auth-api`）
-6. 运行改动范围类型检查（当前最小基线：`deno check supabase/functions/auth-api/*.ts`）
-7. 本地调试函数：`supabase functions serve auth-api --env-file .env.example`
+5. 运行全量测试：`./build.sh <project_ref> test-functions all`
+6. 运行改动范围类型检查（各函数目录执行 `deno check *.ts`）
+7. 本地调试函数：`supabase functions serve <function-name> --env-file .env.example`
 
 ## 6. AI 智能体接手强制约束
 
@@ -51,7 +51,18 @@ node --version
 - 不允许修改历史迁移文件，不允许在生产使用 `db reset`
 - 提交前必须执行改动范围内测试与类型检查（当前最小基线）：
   - `deno test supabase/functions/auth-api`
+  - `deno test supabase/functions/profile-api`
+  - `deno test supabase/functions/design-options-api`
+  - `deno test supabase/functions/flat-design-api`
+  - `deno test supabase/functions/design-3d-api`
+  - `deno test supabase/functions/storage-api`
   - `deno check supabase/functions/auth-api/*.ts`
+  - `deno check supabase/functions/profile-api/*.ts`
+  - `deno check supabase/functions/design-options-api/*.ts`
+  - `deno check supabase/functions/flat-design-api/*.ts`
+  - `deno check supabase/functions/design-3d-api/*.ts`
+  - `deno check supabase/functions/storage-api/*.ts`
+- 或使用统一命令：`./build.sh <project_ref> test-functions all`
 
 ## 7. 常见故障与处理
 

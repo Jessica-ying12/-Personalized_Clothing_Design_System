@@ -17,8 +17,8 @@
 ## TDD 与验证清单（必须）
 
 - [ ] 已先写失败测试，再实现功能（TDD）
-- [ ] 已执行并通过改动范围内测试（当前最小基线：`deno test supabase/functions/auth-api`）
-- [ ] 已执行并通过改动范围内类型检查（当前最小基线：`deno check supabase/functions/auth-api/*.ts`）
+- [ ] 已执行并通过改动范围内测试（`./build.sh <project_ref> test-functions changed` 或 `all`）
+- [ ] 已执行并通过改动范围内类型检查（各函数目录 `deno check *.ts`）
 - [ ] 已验证关键接口（列出接口与结果）
 
 ## 发布与回滚清单（生产相关）
