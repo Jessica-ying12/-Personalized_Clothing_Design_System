@@ -1,0 +1,3 @@
+analyzer:
+  exclude:
+    - Personalized_Clothing_Design_System-backend-supabase/**
