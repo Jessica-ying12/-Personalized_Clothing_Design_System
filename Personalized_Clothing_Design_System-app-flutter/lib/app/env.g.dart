@@ -10,7 +10,7 @@ part of 'env.dart';
 // ignore_for_file: type=lint
 // generated_from: .env.dev
 final class _EnvDev {
-  static const String appName = 'LivHome Dev';
+  static const String appName = 'PCDS Dev';
 
   static const String apiBaseUrl = 'http://hammer-gateway.explorex-ai.com';
 
@@ -26,7 +26,7 @@ final class _EnvDev {
 // ignore_for_file: type=lint
 // generated_from: .env.preview
 final class _EnvPreview {
-  static const String appName = 'LivHome Preview';
+  static const String appName = 'PCDS Preview';
 
   static const String apiBaseUrl = 'http://hammer-gateway.explorex-ai.com';
 
@@ -42,7 +42,7 @@ final class _EnvPreview {
 // ignore_for_file: type=lint
 // generated_from: .env.prod
 final class _EnvProd {
-  static const String appName = 'LivHome';
+  static const String appName = 'PCDS';
 
   static const String apiBaseUrl = 'http://hammer-gateway.explorex-ai.com';
 

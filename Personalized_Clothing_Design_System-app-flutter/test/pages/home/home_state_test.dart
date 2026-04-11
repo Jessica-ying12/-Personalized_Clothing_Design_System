@@ -1,16 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:livhome/pages/home/home_state.dart';
+import 'package:personalized_clothing_design_system/pages/home/home_state.dart';
 
 void main() {
   group('HomeState', () {
-    test('默认值应为 isSidebarOpen=false, selectedIndex=1', () {
+    test('默认值应�?isSidebarOpen=false, selectedIndex=1', () {
       const state = HomeState();
       expect(state.isSidebarOpen, isFalse);
       expect(state.selectedIndex, 1);
     });
 
-    test('copyWith 不传参数应返回相同值的新实例', () {
+    test('copyWith 不传参数应返回相同值的新实�?, () {
       const state = HomeState(isSidebarOpen: true, selectedIndex: 2);
       final copied = state.copyWith();
       expect(copied.isSidebarOpen, isTrue);

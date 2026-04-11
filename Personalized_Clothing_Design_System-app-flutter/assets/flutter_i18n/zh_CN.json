@@ -1,6 +1,11 @@
 {
   "app": {
-    "title": "LivHome"
+    "title": "个性化服装设计系统",
+    "loading": "加载中..."
+  },
+  "splash": {
+    "app_name": "个性化服装设计系统",
+    "checking_auth": "正在检查登录状态..."
   },
   "home": {
     "input_hint": "输入消息..."
@@ -23,20 +28,138 @@
     "auth_status_signed_in": "已登录",
     "auth_status_signed_out": "未登录"
   },
+  "login": {
+    "title": "欢迎使用",
+    "email_hint": "邮箱",
+    "password_hint": "密码",
+    "sign_in": "登录",
+    "sign_up": "注册",
+    "switch_to_sign_up": "没有账号？注册",
+    "switch_to_sign_in": "已有账号？登录"
+  },
   "nav": {
-    "device": "设备",
-    "chat": "聊天",
+    "customize": "定制",
+    "gallery": "仓库",
     "profile": "我的"
+  },
+  "design_flat": {
+    "title": "平面图生成",
+    "pattern": "花纹",
+    "material": "材质",
+    "style": "风格",
+    "audience": "受众人群",
+    "model": "模型选择",
+    "clothing_type": "版型",
+    "details": "详细选项",
+    "placeholder": "选择所有选项后点击生成",
+    "select_option_hint": "点击左侧选项进行选择",
+    "generate": "立即生成",
+    "random_generate": "随机生成",
+    "regenerate": "重新生成",
+    "reset": "重新选择",
+    "next_step": "生成立体图"
+  },
+  "design_3d": {
+    "title": "立体图生成",
+    "options": "选项",
+    "body_type": "身体三维",
+    "skin_tone": "肤色",
+    "gender": "性别",
+    "model": "模型选择",
+    "placeholder": "选择所有选项后点击生成",
+    "generate": "立即生成",
+    "change_background": "更换背景",
+    "toggle_view": "切换视图",
+    "regenerate": "重新生成",
+    "back": "上一步"
+  },
+  "gallery": {
+    "title": "仓库",
+    "flat_tab": "平面展示",
+    "3d_tab": "立体展示",
+    "empty": "暂无设计作品",
+    "download": "下载",
+    "regenerate": "重新生成",
+    "generate_3d": "生成立体图",
+    "delete_confirm_title": "删除设计",
+    "delete_confirm_message": "确定要删除这个设计吗？"
+  },
+  "profile": {
+    "title": "我的",
+    "history": "历史生成记录",
+    "settings": "设置",
+    "logout": "退出登录",
+    "delete_account": "注销账号",
+    "logout_confirm_title": "退出登录",
+    "logout_confirm_message": "确定要退出登录吗？",
+    "delete_account_confirm_title": "注销账号",
+    "delete_account_confirm_message": "确定要注销账号吗？此操作不可撤销。",
+    "edit_profile": "编辑资料"
+  },
+  "profile_edit": {
+    "title": "编辑资料",
+    "full_name": "昵称",
+    "full_name_hint": "请输入昵称",
+    "avatar_url": "头像链接",
+    "avatar_url_hint": "请输入头像图片链接",
+    "avatar_url_note": "您可以上传图片后将链接粘贴到这里",
+    "update_success": "资料更新成功"
+  },
+  "history": {
+    "title": "历史生成记录",
+    "all_tab": "全部",
+    "flat_tab": "平面展示",
+    "3d_tab": "立体展示",
+    "empty": "暂无历史记录",
+    "flat_design": "平面设计",
+    "3d_design": "立体设计",
+    "save_to_gallery": "保存到仓库",
+    "delete_confirm_title": "删除记录",
+    "delete_confirm_message": "确定要删除这条历史记录吗？"
   },
   "common": {
     "confirm": "确定",
     "cancel": "取消",
     "delete": "删除",
-    "deleted_confirm": "已确认删除"
+    "deleted_confirm": "已确认删除",
+    "downloading": "下载中...",
+    "download_success": "下载成功",
+    "download_failed": "下载失败",
+    "loading": "加载中...",
+    "error": "错误",
+    "success": "成功",
+    "retry": "重试",
+    "save": "保存",
+    "edit": "编辑"
   },
   "test_dialog": {
     "title": "删除确认",
     "content": "确定要删除这条记录吗？此操作不可撤销。",
     "button": "测试弹窗"
+  },
+  "settings": {
+    "title": "设置",
+    "language_section": "语言设置",
+    "chinese": "简体中文",
+    "english": "English",
+    "notification_section": "通知设置",
+    "enable_notifications": "启用通知",
+    "cache_section": "缓存管理",
+    "clear_cache": "清除缓存",
+    "clear_cache_confirm_title": "清除缓存",
+    "clear_cache_confirm_message": "确定要清除所有缓存吗？",
+    "cache_cleared": "缓存已清除",
+    "about_section": "关于",
+    "version": "版本号",
+    "privacy_policy": "隐私政策",
+    "terms_of_service": "服务条款",
+    "coming_soon": "即将推出"
+  },
+  "design_detail": {
+    "flat_design": "平面设计",
+    "3d_design": "立体设计",
+    "load_failed": "图片加载失败",
+    "pinch_to_zoom": "双指缩放查看大图",
+    "share_coming_soon": "分享功能即将推出"
   }
 }

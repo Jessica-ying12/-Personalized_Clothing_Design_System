@@ -38,7 +38,7 @@ class TestViewModel extends Notifier<TestState> {
   }
 
   Future<void> signIn(String email, String password) async {
-    Log.d('[Auth] signIn → email=$email');
+    Log.d('[Auth] signIn 开始 email=$email');
     state = state.copyWith(isAuthLoading: true, clearAuthError: true);
     try {
       final res = await ref.read(authRepositoryProvider).signInWithPassword(
@@ -59,7 +59,7 @@ class TestViewModel extends Notifier<TestState> {
   }
 
   Future<void> signOut() async {
-    Log.d('[Auth] signOut →');
+    Log.d('[Auth] signOut 开始');
     state = state.copyWith(isAuthLoading: true, clearAuthError: true);
     try {
       await ref.read(authRepositoryProvider).signOut();
@@ -72,7 +72,7 @@ class TestViewModel extends Notifier<TestState> {
   }
 
   Future<void> sendOtp(String email) async {
-    Log.d('[Auth] sendOtp → email=$email');
+    Log.d('[Auth] sendOtp 开始 email=$email');
     state = state.copyWith(isAuthLoading: true, clearAuthError: true);
     try {
       await ref.read(authRepositoryProvider).sendOtp(email: email);
@@ -85,7 +85,7 @@ class TestViewModel extends Notifier<TestState> {
   }
 
   Future<void> verifyOtp(String email, String token) async {
-    Log.d('[Auth] verifyOtp → email=$email');
+    Log.d('[Auth] verifyOtp 开始 email=$email');
     state = state.copyWith(isAuthLoading: true, clearAuthError: true);
     try {
       final res = await ref.read(authRepositoryProvider).verifyOtp(

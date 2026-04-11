@@ -9,17 +9,17 @@ android.apply {
         create("dev") {
             dimension = "flavor-type"
             applicationId = "com.explorex.camlink.dev"
-            resValue(type = "string", name = "app_name", value = "LivHome Dev")
+            resValue(type = "string", name = "app_name", value = "PCDS Dev")
         }
         create("preview") {
             dimension = "flavor-type"
             applicationId = "com.explorex.camlink.preview"
-            resValue(type = "string", name = "app_name", value = "LivHome Preview")
+            resValue(type = "string", name = "app_name", value = "PCDS Preview")
         }
         create("prod") {
             dimension = "flavor-type"
             applicationId = "com.explorex.camlink"
-            resValue(type = "string", name = "app_name", value = "LivHome")
+            resValue(type = "string", name = "app_name", value = "PCDS")
         }
     }
 }

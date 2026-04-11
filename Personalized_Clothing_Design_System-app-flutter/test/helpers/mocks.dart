@@ -2,8 +2,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide AuthState;
 
-import 'package:livhome/core/supabase/auth/auth_repository.dart';
-import 'package:livhome/core/network/api/website/website_api.dart';
+import 'package:personalized_clothing_design_system/core/supabase/auth/auth_repository.dart';
+import 'package:personalized_clothing_design_system/core/network/api/website/website_api.dart';
 
 class MockAuthRepository extends Mock implements AuthRepository {}
 

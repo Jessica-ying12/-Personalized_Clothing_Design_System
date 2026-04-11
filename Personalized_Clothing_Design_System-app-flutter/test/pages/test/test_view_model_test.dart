@@ -2,11 +2,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import 'package:livhome/core/network/api/website/model/app_setting.dart';
-import 'package:livhome/core/network/client/base_response.dart';
-import 'package:livhome/core/supabase/auth/auth_repository.dart';
-import 'package:livhome/pages/test/test_state.dart';
-import 'package:livhome/pages/test/test_view_model.dart';
+import 'package:personalized_clothing_design_system/core/network/api/website/model/app_setting.dart';
+import 'package:personalized_clothing_design_system/core/network/client/base_response.dart';
+import 'package:personalized_clothing_design_system/core/supabase/auth/auth_repository.dart';
+import 'package:personalized_clothing_design_system/pages/test/test_state.dart';
+import 'package:personalized_clothing_design_system/pages/test/test_view_model.dart';
 
 import '../../helpers/mocks.dart';
 import '../../helpers/test_helpers.dart';
@@ -38,13 +38,13 @@ void main() {
   TestViewModel readVm() => container.read(testViewModelProvider.notifier);
 
   group('TestViewModel', () {
-    group('build (初始化)', () {
+    group('build (初始�?', () {
       test('未登录时 userId 应为 null', () {
         expect(readState().userId, isNull);
         expect(readState().isSignedIn, isFalse);
       });
 
-      test('已登录时应提取 user 信息', () {
+      test('已登录时应提�?user 信息', () {
         final fakeUser = FakeUser();
         when(() => mockAuthRepo.currentUser).thenReturn(fakeUser);
 
@@ -65,33 +65,33 @@ void main() {
 
     group('fetchAppSetting', () {
       test('成功时应更新 appSetting', () async {
-        const setting = AppSetting(websiteName: 'LivHome');
+        const setting = AppSetting(websiteName: 'PCDS');
         when(() => mockWebsiteApi.getAppSetting()).thenAnswer(
           (_) async => const BaseResponse(code: 200, data: setting),
         );
 
         await readVm().fetchAppSetting();
 
-        expect(readState().appSetting?.websiteName, 'LivHome');
+        expect(readState().appSetting?.websiteName, 'PCDS');
         expect(readState().isLoading, isFalse);
         expect(readState().error, isNull);
       });
 
-      test('API 返回非 200 应设置 error', () async {
+      test('API 返回�?200 应设�?error', () async {
         when(() => mockWebsiteApi.getAppSetting()).thenAnswer(
-          (_) async => const BaseResponse(code: 500, msg: '服务器错误'),
+          (_) async => const BaseResponse(code: 500, msg: '服务器错�?),
         );
 
         await readVm().fetchAppSetting();
 
         expect(readState().appSetting, isNull);
-        expect(readState().error, '服务器错误');
+        expect(readState().error, '服务器错�?);
         expect(readState().isLoading, isFalse);
       });
     });
 
     group('toggleMode', () {
-      test('应翻转 isSignUpMode', () {
+      test('应翻�?isSignUpMode', () {
         expect(readState().isSignUpMode, isFalse);
 
         readVm().toggleMode();
@@ -101,19 +101,16 @@ void main() {
         expect(readState().isSignUpMode, isFalse);
       });
 
-      test('切换模式应清除 authError 和重置 isOtpSent', () {
-        // 先制造一些状态
-        readVm().toggleMode(); // isSignUpMode = true
-        // 模拟 authError（通过 copyWith 无法直接触发，用 toggleMode 间接验证 clear 行为）
-        expect(readState().authError, isNull);
+      test('切换模式应清�?authError 和重�?isOtpSent', () {
+        // 先制造一些状�?        readVm().toggleMode(); // isSignUpMode = true
+        // 模拟 authError（通过 copyWith 无法直接触发，用 toggleMode 间接验证 clear 行为�?        expect(readState().authError, isNull);
         expect(readState().isOtpSent, isFalse);
       });
     });
 
     group('signOut', () {
-      test('成功时应清除用户状态', () async {
-        // 先设置为已登录状态
-        final fakeUser = FakeUser();
+      test('成功时应清除用户状�?, () async {
+        // 先设置为已登录状�?        final fakeUser = FakeUser();
         when(() => mockAuthRepo.currentUser).thenReturn(fakeUser);
         container.dispose();
         container = createContainer(

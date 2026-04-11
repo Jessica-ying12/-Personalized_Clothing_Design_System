@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:livhome/pages/home/home_state.dart';
-import 'package:livhome/pages/home/home_view_model.dart';
+import 'package:personalized_clothing_design_system/pages/home/home_state.dart';
+import 'package:personalized_clothing_design_system/pages/home/home_view_model.dart';
 
 import '../../helpers/test_helpers.dart';
 
@@ -19,11 +19,11 @@ void main() {
   HomeViewModel readVm() => container.read(homeViewModelProvider.notifier);
 
   group('HomeViewModel', () {
-    test('初始状态 selectedIndex 应为 1', () {
+    test('初始状�?selectedIndex 应为 1', () {
       expect(readState().selectedIndex, 1);
     });
 
-    test('初始状态 isSidebarOpen 应为 false', () {
+    test('初始状�?isSidebarOpen 应为 false', () {
       expect(readState().isSidebarOpen, isFalse);
     });
 
@@ -36,9 +36,8 @@ void main() {
         expect(readState().selectedIndex, 2);
       });
 
-      test('切换到当前索引不应触发状态变更', () {
-        // 监听状态变更次数
-        var changeCount = 0;
+      test('切换到当前索引不应触发状态变�?, () {
+        // 监听状态变更次�?        var changeCount = 0;
         container.listen(homeViewModelProvider, (_, __) => changeCount++);
 
         readVm().switchTab(1); // 默认就是 1
@@ -47,7 +46,7 @@ void main() {
     });
 
     group('toggleSidebar', () {
-      test('应翻转 isSidebarOpen', () {
+      test('应翻�?isSidebarOpen', () {
         expect(readState().isSidebarOpen, isFalse);
 
         readVm().toggleSidebar();
@@ -67,7 +66,7 @@ void main() {
         expect(readState().isSidebarOpen, isFalse);
       });
 
-      test('已关闭状态调用 closeSidebar 应保持 false', () {
+      test('已关闭状态调�?closeSidebar 应保�?false', () {
         readVm().closeSidebar();
         expect(readState().isSidebarOpen, isFalse);
       });

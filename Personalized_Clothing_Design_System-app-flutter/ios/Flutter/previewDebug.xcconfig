@@ -2,6 +2,6 @@
 #include "Generated.xcconfig"
 
 ASSET_PREFIX=preview
-BUNDLE_NAME=LivHome Preview
-BUNDLE_DISPLAY_NAME=LivHome Preview
+BUNDLE_NAME=PCDS Preview
+BUNDLE_DISPLAY_NAME=PCDS Preview
 FLUTTER_TARGET=lib/main_preview.dart

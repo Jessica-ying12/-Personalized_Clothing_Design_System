@@ -2,6 +2,6 @@
 #include "Generated.xcconfig"
 
 ASSET_PREFIX=dev
-BUNDLE_NAME=LivHome Dev
-BUNDLE_DISPLAY_NAME=LivHome Dev
+BUNDLE_NAME=PCDS Dev
+BUNDLE_DISPLAY_NAME=PCDS Dev
 FLUTTER_TARGET=lib/main_dev.dart

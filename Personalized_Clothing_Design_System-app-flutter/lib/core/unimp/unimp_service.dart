@@ -22,7 +22,7 @@ class UniMPService {
     return await _invoke<bool>('close', {'appId': appId}) ?? false;
   }
 
-  /// 安装本地 wgt 文件到 SDK 运行目录
+  /// 安装本地 wgt 文件�?SDK 运行目录
   static Future<bool> install(String appId, String wgtPath) async {
     final result = await _invoke<bool>('install', {
       'appId': appId,
@@ -40,12 +40,12 @@ class UniMPService {
     return result?.cast<String, String>();
   }
 
-  /// 从远程 URL 下载 wgt 并安装，完成后自动打开
+  /// 从远�?URL 下载 wgt 并安装，完成后自动打开
   ///
   /// [wgtUrl] 远程 wgt 文件地址
-  /// [appId] 小程序 AppID
+  /// [appId] 小程�?AppID
   /// [onProgress] 下载进度回调 (0.0 ~ 1.0)
-  /// [autoOpen] 安装后是否自动打开，默认 true
+  /// [autoOpen] 安装后是否自动打开，默�?true
   static Future<bool> downloadAndInstall(
     String wgtUrl, {
     required String appId,

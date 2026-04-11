@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:livhome/core/network/api/website/model/app_setting.dart';
-import 'package:livhome/pages/test/test_state.dart';
+import 'package:personalized_clothing_design_system/core/network/api/website/model/app_setting.dart';
+import 'package:personalized_clothing_design_system/pages/test/test_state.dart';
 
 void main() {
   group('TestState', () {
-    test('默认值应全部为初始状态', () {
+    test('默认值应全部为初始状�?, () {
       const state = TestState();
       expect(state.appSetting, isNull);
       expect(state.isLoading, isFalse);
@@ -18,7 +18,7 @@ void main() {
       expect(state.isOtpSent, isFalse);
     });
 
-    test('isSignedIn 应在 userId 非空时返回 true', () {
+    test('isSignedIn 应在 userId 非空时返�?true', () {
       const signedOut = TestState();
       expect(signedOut.isSignedIn, isFalse);
 
@@ -27,7 +27,7 @@ void main() {
     });
 
     group('copyWith', () {
-      test('不传参数应返回相同值', () {
+      test('不传参数应返回相同�?, () {
         const original = TestState(
           isLoading: true,
           userId: 'uid',
@@ -55,13 +55,13 @@ void main() {
         expect(cleared.error, isNull);
       });
 
-      test('clearError 时传入新 error 应仍为 null（clear 优先）', () {
+      test('clearError 时传入新 error 应仍�?null（clear 优先�?, () {
         const state = TestState(error: 'old');
         final cleared = state.copyWith(clearError: true, error: 'new');
         expect(cleared.error, isNull);
       });
 
-      test('clearUser 应将 userId 和 userEmail 设为 null', () {
+      test('clearUser 应将 userId �?userEmail 设为 null', () {
         const state = TestState(userId: 'uid', userEmail: 'a@b.com');
         final cleared = state.copyWith(clearUser: true);
         expect(cleared.userId, isNull);
@@ -82,10 +82,10 @@ void main() {
       });
 
       test('应能更新 appSetting', () {
-        const setting = AppSetting(websiteName: 'LivHome');
+        const setting = AppSetting(websiteName: 'PCDS');
         const state = TestState();
         final updated = state.copyWith(appSetting: setting);
-        expect(updated.appSetting?.websiteName, 'LivHome');
+        expect(updated.appSetting?.websiteName, 'PCDS');
       });
     });
   });

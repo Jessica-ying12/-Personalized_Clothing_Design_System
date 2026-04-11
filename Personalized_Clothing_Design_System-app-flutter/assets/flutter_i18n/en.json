@@ -1,6 +1,11 @@
 {
   "app": {
-    "title": "LivHome"
+    "title": "Personalized Clothing Design System",
+    "loading": "Loading..."
+  },
+  "splash": {
+    "app_name": "Personalized Clothing Design System",
+    "checking_auth": "Checking authentication..."
   },
   "home": {
     "input_hint": "Type a message..."
@@ -23,20 +28,138 @@
     "auth_status_signed_in": "Signed in",
     "auth_status_signed_out": "Not signed in"
   },
+  "login": {
+    "title": "Welcome",
+    "email_hint": "Email",
+    "password_hint": "Password",
+    "sign_in": "Sign In",
+    "sign_up": "Sign Up",
+    "switch_to_sign_up": "No account? Sign up",
+    "switch_to_sign_in": "Have an account? Sign in"
+  },
   "nav": {
-    "device": "Device",
-    "chat": "Chat",
+    "customize": "Customize",
+    "gallery": "Gallery",
     "profile": "Profile"
+  },
+  "design_flat": {
+    "title": "Flat Design",
+    "pattern": "Pattern",
+    "material": "Material",
+    "style": "Style",
+    "audience": "Audience",
+    "model": "Model",
+    "clothing_type": "Type",
+    "details": "Details",
+    "placeholder": "Select all options and generate",
+    "select_option_hint": "Click left options to select",
+    "generate": "Generate",
+    "random_generate": "Random",
+    "regenerate": "Regenerate",
+    "reset": "Reset",
+    "next_step": "Generate 3D"
+  },
+  "design_3d": {
+    "title": "3D Design",
+    "options": "Options",
+    "body_type": "Body Type",
+    "skin_tone": "Skin Tone",
+    "gender": "Gender",
+    "model": "Model",
+    "placeholder": "Select all options and generate",
+    "generate": "Generate",
+    "change_background": "Change Background",
+    "toggle_view": "Toggle View",
+    "regenerate": "Regenerate",
+    "back": "Back"
+  },
+  "gallery": {
+    "title": "Gallery",
+    "flat_tab": "Flat Designs",
+    "3d_tab": "3D Designs",
+    "empty": "No designs yet",
+    "download": "Download",
+    "regenerate": "Regenerate",
+    "generate_3d": "Generate 3D",
+    "delete_confirm_title": "Delete Design",
+    "delete_confirm_message": "Are you sure you want to delete this design?"
+  },
+  "profile": {
+    "title": "Profile",
+    "history": "History",
+    "settings": "Settings",
+    "logout": "Logout",
+    "delete_account": "Delete Account",
+    "logout_confirm_title": "Logout",
+    "logout_confirm_message": "Are you sure you want to logout?",
+    "delete_account_confirm_title": "Delete Account",
+    "delete_account_confirm_message": "Are you sure you want to delete your account? This action cannot be undone.",
+    "edit_profile": "Edit Profile"
+  },
+  "profile_edit": {
+    "title": "Edit Profile",
+    "full_name": "Full Name",
+    "full_name_hint": "Enter your full name",
+    "avatar_url": "Avatar URL",
+    "avatar_url_hint": "Enter avatar image URL",
+    "avatar_url_note": "You can upload an image and paste the URL here",
+    "update_success": "Profile updated successfully"
+  },
+  "history": {
+    "title": "History",
+    "all_tab": "All",
+    "flat_tab": "Flat Designs",
+    "3d_tab": "3D Designs",
+    "empty": "No history yet",
+    "flat_design": "Flat Design",
+    "3d_design": "3D Design",
+    "save_to_gallery": "Save to Gallery",
+    "delete_confirm_title": "Delete Record",
+    "delete_confirm_message": "Are you sure you want to delete this history record?"
   },
   "common": {
     "confirm": "OK",
     "cancel": "Cancel",
     "delete": "Delete",
-    "deleted_confirm": "Deleted"
+    "deleted_confirm": "Deleted",
+    "downloading": "Downloading...",
+    "download_success": "Download Success",
+    "download_failed": "Download Failed",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "retry": "Retry",
+    "save": "Save",
+    "edit": "Edit"
   },
   "test_dialog": {
     "title": "Delete Confirmation",
     "content": "Are you sure you want to delete this record? This action cannot be undone.",
     "button": "Test Dialog"
+  },
+  "settings": {
+    "title": "Settings",
+    "language_section": "Language",
+    "chinese": "简体中文",
+    "english": "English",
+    "notification_section": "Notifications",
+    "enable_notifications": "Enable Notifications",
+    "cache_section": "Cache Management",
+    "clear_cache": "Clear Cache",
+    "clear_cache_confirm_title": "Clear Cache",
+    "clear_cache_confirm_message": "Are you sure you want to clear all cache?",
+    "cache_cleared": "Cache cleared",
+    "about_section": "About",
+    "version": "Version",
+    "privacy_policy": "Privacy Policy",
+    "terms_of_service": "Terms of Service",
+    "coming_soon": "Coming Soon"
+  },
+  "design_detail": {
+    "flat_design": "Flat Design",
+    "3d_design": "3D Design",
+    "load_failed": "Failed to load image",
+    "pinch_to_zoom": "Pinch to zoom",
+    "share_coming_soon": "Share feature coming soon"
   }
 }

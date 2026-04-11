@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:livhome/app/theme/theme.dart';
-import 'package:livhome/shared/widgets/buttons/app_button.dart';
+import 'package:personalized_clothing_design_system/app/theme/theme.dart';
+import 'package:personalized_clothing_design_system/shared/widgets/buttons/app_button.dart';
 
 class AppDialog extends StatelessWidget {
   const AppDialog({

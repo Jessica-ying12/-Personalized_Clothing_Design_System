@@ -49,7 +49,7 @@ class UniMPDemoViewModel extends Notifier<UniMPDemoState> {
     _downloadCancelToken = CancelToken();
     state = state.copyWith(
       loading: true,
-      status: '下载中...',
+      status: '下载�?..',
       downloadProgress: () => 0.0,
     );
     try {
@@ -59,7 +59,7 @@ class UniMPDemoViewModel extends Notifier<UniMPDemoState> {
         cancelToken: _downloadCancelToken,
         onProgress: (progress) {
           state = state.copyWith(
-            status: '下载中 ${(progress * 100).toStringAsFixed(0)}%',
+            status: '下载�?${(progress * 100).toStringAsFixed(0)}%',
             downloadProgress: () => progress,
           );
         },

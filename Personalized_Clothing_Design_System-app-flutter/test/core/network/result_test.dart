@@ -1,18 +1,18 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:livhome/core/network/client/api_exception.dart';
-import 'package:livhome/core/network/client/result.dart';
+import 'package:personalized_clothing_design_system/core/network/client/api_exception.dart';
+import 'package:personalized_clothing_design_system/core/network/client/result.dart';
 
 void main() {
   group('Result', () {
-    test('Success 应持有数据', () {
+    test('Success 应持有数�?, () {
       const result = Success(42);
       expect(result.data, 42);
       expect(result, isA<Result<int>>());
     });
 
-    test('Failure 应持有异常', () {
+    test('Failure 应持有异�?, () {
       const result = Failure<int>(ApiException.timeout);
       expect(result.exception.code, -1);
       expect(result, isA<Result<int>>());
@@ -20,14 +20,14 @@ void main() {
   });
 
   group('apiCall', () {
-    test('正常调用应返回 Success', () async {
+    test('正常调用应返�?Success', () async {
       final result = await apiCall(() async => 'hello');
 
       expect(result, isA<Success<String>>());
       expect((result as Success<String>).data, 'hello');
     });
 
-    test('DioException (含 ApiException) 应返回 Failure', () async {
+    test('DioException (�?ApiException) 应返�?Failure', () async {
       final result = await apiCall<String>(() async {
         throw DioException(
           type: DioExceptionType.unknown,
@@ -40,7 +40,7 @@ void main() {
       expect((result as Failure<String>).exception.code, 42);
     });
 
-    test('DioException (无 ApiException) 应通过 fromDioException 转换', () async {
+    test('DioException (�?ApiException) 应通过 fromDioException 转换', () async {
       final result = await apiCall<String>(() async {
         throw DioException(
           type: DioExceptionType.connectionTimeout,
@@ -52,7 +52,7 @@ void main() {
       expect((result as Failure<String>).exception.code, -1);
     });
 
-    test('非 DioException 应返回 unknown Failure', () async {
+    test('�?DioException 应返�?unknown Failure', () async {
       final result = await apiCall<String>(() async {
         throw Exception('boom');
       });
@@ -63,7 +63,7 @@ void main() {
   });
 
   group('Result pattern matching', () {
-    test('switch 应能匹配 Success 和 Failure', () {
+    test('switch 应能匹配 Success �?Failure', () {
       const Result<int> success = Success(1);
       const Result<int> failure = Failure(ApiException.timeout);
 

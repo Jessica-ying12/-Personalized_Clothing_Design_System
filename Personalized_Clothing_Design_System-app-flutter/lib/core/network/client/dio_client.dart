@@ -15,7 +15,7 @@ Dio createDio() {
     sendTimeout: const Duration(seconds: 15),
   ));
 
-  // 执行链: Retry → Auth → Log → [请求] → Error
+  // 执行�? Retry �?Auth �?Log �?[请求] �?Error
   dio.interceptors.addAll([
     RetryInterceptor(dio: dio),
     AuthInterceptor(),

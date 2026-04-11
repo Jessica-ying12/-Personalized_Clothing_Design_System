@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import 'package:livhome/core/supabase/auth/auth_repository.dart';
+import 'package:personalized_clothing_design_system/core/supabase/auth/auth_repository.dart';
 
 import '../../../helpers/mocks.dart';
 import '../../../helpers/test_helpers.dart';
@@ -28,7 +28,7 @@ void main() {
       expect(repo, same(mockRepo));
     });
 
-    test('signInWithPassword 应调用底层方法', () async {
+    test('signInWithPassword 应调用底层方�?, () async {
       when(() => mockRepo.signInWithPassword(
             email: any(named: 'email'),
             password: any(named: 'password'),
@@ -45,7 +45,7 @@ void main() {
           )).called(1);
     });
 
-    test('signOut 应调用底层方法', () async {
+    test('signOut 应调用底层方�?, () async {
       when(() => mockRepo.signOut()).thenAnswer((_) async {});
 
       await container.read(authRepositoryProvider).signOut();
@@ -53,7 +53,7 @@ void main() {
       verify(() => mockRepo.signOut()).called(1);
     });
 
-    test('sendOtp 应调用底层方法', () async {
+    test('sendOtp 应调用底层方�?, () async {
       when(() => mockRepo.sendOtp(email: any(named: 'email')))
           .thenAnswer((_) async {});
 
@@ -62,7 +62,7 @@ void main() {
       verify(() => mockRepo.sendOtp(email: 'a@b.com')).called(1);
     });
 
-    test('currentUser 应返回 mock 配置的值', () {
+    test('currentUser 应返�?mock 配置的�?, () {
       when(() => mockRepo.currentUser).thenReturn(null);
       expect(container.read(authRepositoryProvider).currentUser, isNull);
     });

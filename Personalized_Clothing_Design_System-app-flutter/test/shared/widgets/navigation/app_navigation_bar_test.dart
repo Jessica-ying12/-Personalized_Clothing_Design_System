@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:livhome/app/theme/theme.dart';
-import 'package:livhome/shared/widgets/navigation/app_navigation_bar.dart';
+import 'package:personalized_clothing_design_system/app/theme/theme.dart';
+import 'package:personalized_clothing_design_system/shared/widgets/navigation/app_navigation_bar.dart';
 
 Widget _buildApp({required Widget child, bool withNavigation = true}) {
   return MaterialApp(
@@ -16,7 +16,7 @@ Widget _buildApp({required Widget child, bool withNavigation = true}) {
 
 void main() {
   group('AppNavigationBar', () {
-    testWidgets('默认渲染返回按钮和标题', (tester) async {
+    testWidgets('默认渲染返回按钮和标�?, (tester) async {
       await tester.pumpWidget(
         _buildApp(
           child: Scaffold(appBar: AppNavigationBar(title: '测试页面')),
@@ -27,7 +27,7 @@ void main() {
       expect(find.byType(AppBar), findsOneWidget);
     });
 
-    testWidgets('showBackButton 为 false 时不显示返回按钮', (tester) async {
+    testWidgets('showBackButton �?false 时不显示返回按钮', (tester) async {
       await tester.pumpWidget(
         _buildApp(
           child: Scaffold(
@@ -40,12 +40,12 @@ void main() {
       expect(find.byIcon(Icons.arrow_back_ios_new_rounded), findsNothing);
     });
 
-    testWidgets('传入 leading 时替代返回按钮', (tester) async {
+    testWidgets('传入 leading 时替代返回按�?, (tester) async {
       await tester.pumpWidget(
         _buildApp(
           child: Scaffold(
             appBar: AppNavigationBar(
-              title: '菜单页',
+              title: '菜单�?,
               leading: const Icon(Icons.menu, key: Key('menu_icon')),
             ),
           ),
@@ -83,13 +83,13 @@ void main() {
       expect(find.byKey(const Key('action_2')), findsOneWidget);
     });
 
-    testWidgets('titleWidget 优先于 title 渲染', (tester) async {
+    testWidgets('titleWidget 优先�?title 渲染', (tester) async {
       await tester.pumpWidget(
         _buildApp(
           child: Scaffold(
             appBar: AppNavigationBar(
               title: '不应显示',
-              titleWidget: const Text('自定义标题', key: Key('custom_title')),
+              titleWidget: const Text('自定义标�?, key: Key('custom_title')),
             ),
           ),
         ),
@@ -99,12 +99,12 @@ void main() {
       expect(find.text('不应显示'), findsNothing);
     });
 
-    testWidgets('自定义 backgroundColor 生效', (tester) async {
+    testWidgets('自定�?backgroundColor 生效', (tester) async {
       await tester.pumpWidget(
         _buildApp(
           child: Scaffold(
             appBar: AppNavigationBar(
-              title: '自定义背景',
+              title: '自定义背�?,
               backgroundColor: AppColors.primaryLight,
             ),
           ),
@@ -115,12 +115,12 @@ void main() {
       expect(appBar.backgroundColor, AppColors.primaryLight);
     });
 
-    testWidgets('gradient 模式下 AppBar 背景透明', (tester) async {
+    testWidgets('gradient 模式�?AppBar 背景透明', (tester) async {
       await tester.pumpWidget(
         _buildApp(
           child: Scaffold(
             appBar: AppNavigationBar(
-              title: '渐变导航栏',
+              title: '渐变导航�?,
               gradient: const LinearGradient(
                 colors: [AppColors.primary, AppColors.primaryDark],
               ),
@@ -134,7 +134,7 @@ void main() {
       expect(appBar.elevation, 0);
     });
 
-    testWidgets('gradient 模式下存在渐变容器', (tester) async {
+    testWidgets('gradient 模式下存在渐变容�?, (tester) async {
       const testGradient = LinearGradient(
         colors: [AppColors.primary, AppColors.primaryDark],
       );
@@ -142,12 +142,12 @@ void main() {
       await tester.pumpWidget(
         _buildApp(
           child: Scaffold(
-            appBar: AppNavigationBar(title: '渐变导航栏', gradient: testGradient),
+            appBar: AppNavigationBar(title: '渐变导航�?, gradient: testGradient),
           ),
         ),
       );
 
-      // 验证存在带 BoxDecoration 的 Container
+      // 验证存在�?BoxDecoration �?Container
       final decoratedBoxFinder = find.byWidgetPredicate(
         (w) =>
             w is DecoratedBox &&
@@ -179,7 +179,7 @@ void main() {
       expect(bar.preferredSize.height, kToolbarHeight);
     });
 
-    testWidgets('title 为 null 时不渲染标题文本', (tester) async {
+    testWidgets('title �?null 时不渲染标题文本', (tester) async {
       await tester.pumpWidget(
         _buildApp(
           child: Scaffold(appBar: AppNavigationBar(showBackButton: false)),

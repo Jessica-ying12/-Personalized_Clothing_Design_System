@@ -352,7 +352,7 @@ class _HomePageState extends ConsumerState<HomePage>
   }
 }
 
-// ---------- 聊天 Tab（原 HomePage 内容） ----------
+// ---------- 聊天 Tab（原 HomePage 内容）----------
 
 class _ChatTab extends ConsumerStatefulWidget {
   const _ChatTab();
