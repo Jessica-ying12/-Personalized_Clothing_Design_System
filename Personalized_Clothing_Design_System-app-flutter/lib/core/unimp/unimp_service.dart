@@ -22,7 +22,6 @@ class UniMPService {
     return await _invoke<bool>('close', {'appId': appId}) ?? false;
   }
 
-  /// 安装本地 wgt 文件�?SDK 运行目录
   static Future<bool> install(String appId, String wgtPath) async {
     final result = await _invoke<bool>('install', {
       'appId': appId,
@@ -40,12 +39,6 @@ class UniMPService {
     return result?.cast<String, String>();
   }
 
-  /// 从远�?URL 下载 wgt 并安装，完成后自动打开
-  ///
-  /// [wgtUrl] 远程 wgt 文件地址
-  /// [appId] 小程�?AppID
-  /// [onProgress] 下载进度回调 (0.0 ~ 1.0)
-  /// [autoOpen] 安装后是否自动打开，默�?true
   static Future<bool> downloadAndInstall(
     String wgtUrl, {
     required String appId,
@@ -58,7 +51,6 @@ class UniMPService {
     if (!wgtDir.existsSync()) wgtDir.createSync(recursive: true);
     final savePath = '${wgtDir.path}/$appId.wgt';
 
-    // 下载
     final dio = Dio();
     try {
       await dio.download(
@@ -75,23 +67,21 @@ class UniMPService {
       dio.close();
     }
 
-    // 安装
     final installed = await install(appId, savePath);
     if (!installed) {
       throw UniMPException('install', 'Install returned false');
     }
 
-    // 清理下载文件
     try {
       File(savePath).deleteSync();
     } catch (_) {}
 
-    // 自动打开
     if (autoOpen) await open(appId);
     return true;
   }
 
-  static Future<T?> _invoke<T>(String method, Map<String, dynamic> args) async {
+  static Future<T?> _invoke<T>(
+      String method, Map<String, dynamic> args) async {
     try {
       return await _channel.invokeMethod<T>(method, args);
     } on PlatformException catch (e) {

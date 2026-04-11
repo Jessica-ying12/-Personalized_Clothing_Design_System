@@ -12,7 +12,6 @@ class DownloadHelper {
     String fileName,
   ) async {
     try {
-      // 显示下载进度对话�?
       showDialog(
         context: context,
         barrierDismissible: false,
@@ -28,7 +27,6 @@ class DownloadHelper {
         ),
       );
 
-      // 获取下载目录
       Directory? directory;
       if (Platform.isAndroid) {
         directory = await getExternalStorageDirectory();
@@ -36,28 +34,16 @@ class DownloadHelper {
         directory = await getApplicationDocumentsDirectory();
       }
 
-      if (directory == null) {
-        throw Exception('无法获取存储目录');
-      }
+      if (directory == null) throw Exception('无法获取存储目录');
 
-      // 创建保存路径
       final savePath = '${directory.path}/$fileName';
-
-      // 下载文件
       final dio = Dio();
       await dio.download(url, savePath);
 
-      // 关闭进度对话�?
-      if (context.mounted) {
-        Navigator.of(context).pop();
-      }
-
+      if (context.mounted) Navigator.of(context).pop();
       return savePath;
     } catch (e) {
-      // 关闭进度对话�?
-      if (context.mounted) {
-        Navigator.of(context).pop();
-      }
+      if (context.mounted) Navigator.of(context).pop();
       rethrow;
     }
   }

@@ -6,203 +6,112 @@ import 'design_flat_state.dart';
 class DesignFlatViewModel extends Notifier<DesignFlatState> {
   @override
   DesignFlatState build() {
-    loadOptions();
+    Future.microtask(() => _loadOptions());
     return const DesignFlatState();
   }
 
-  Future<void> loadOptions() async {
+  Future<void> _loadOptions() async {
     state = state.copyWith(isLoadingOptions: true);
-
     try {
       final service = ref.read(designOptionsServiceProvider);
-
-      final patternOptions = await service.getOptions(category: 'pattern');
-      final materialOptions = await service.getOptions(category: 'material');
-      final styleOptions = await service.getOptions(category: 'style');
-      final audienceOptions = await service.getOptions(category: 'audience');
-      final modelOptions = await service.getOptions(category: 'ai_model');
-      final clothingTypeOptions = await service.getOptions(category: 'silhouette');
+      final all = await service.getOptions();
 
       state = state.copyWith(
         isLoadingOptions: false,
-        patternOptions: patternOptions,
-        materialOptions: materialOptions,
-        styleOptions: styleOptions,
-        audienceOptions: audienceOptions,
-        modelOptions: modelOptions,
-        clothingTypeOptions: clothingTypeOptions,
+        patternOptions: all.where((o) => o.category == 'pattern').toList(),
+        materialOptions: all.where((o) => o.category == 'material').toList(),
+        styleOptions: all.where((o) => o.category == 'style').toList(),
+        audienceOptions: all.where((o) => o.category == 'audience').toList(),
+        modelOptions: all.where((o) => o.category == 'ai_model').toList(),
+        clothingTypeOptions:
+            all.where((o) => o.category == 'clothing_type').toList(),
       );
-    } catch (e) {
-      state = state.copyWith(
-        isLoadingOptions: false,
-        errorMessage: e.toString(),
-      );
+    } catch (_) {
+      state = state.copyWith(isLoadingOptions: false);
     }
   }
 
-  void selectPattern(String patternId) {
-    state = state.copyWith(
-      selectedPattern: patternId,
-      currentStep: DesignStep.initial,
-      errorMessage: null,
-    );
-  }
+  void setStep(DesignStep step) => state = state.copyWith(currentStep: step);
 
-  void selectMaterial(String materialId) {
-    state = state.copyWith(
-      selectedMaterial: materialId,
-      currentStep: DesignStep.initial,
-      errorMessage: null,
-    );
-  }
+  void selectPattern(String id) =>
+      state = state.copyWith(selectedPattern: id, currentStep: DesignStep.initial);
 
-  void selectStyle(String styleId) {
-    state = state.copyWith(
-      selectedStyle: styleId,
-      currentStep: DesignStep.initial,
-      errorMessage: null,
-    );
-  }
+  void selectMaterial(String id) =>
+      state = state.copyWith(selectedMaterial: id, currentStep: DesignStep.initial);
 
-  void selectAudience(String audienceId) {
-    state = state.copyWith(
-      selectedAudience: audienceId,
-      currentStep: DesignStep.initial,
-      errorMessage: null,
-    );
-  }
+  void selectStyle(String id) =>
+      state = state.copyWith(selectedStyle: id, currentStep: DesignStep.initial);
 
-  void selectModel(String modelId) {
-    state = state.copyWith(
-      selectedModel: modelId,
-      currentStep: DesignStep.initial,
-      errorMessage: null,
-    );
-  }
+  void selectAudience(String id) =>
+      state = state.copyWith(selectedAudience: id, currentStep: DesignStep.initial);
 
-  void selectClothingType(String typeId) {
-    state = state.copyWith(
-      selectedClothingType: typeId,
-      currentStep: DesignStep.initial,
-      errorMessage: null,
-    );
-  }
+  void selectModel(String id) =>
+      state = state.copyWith(selectedModel: id, currentStep: DesignStep.initial);
 
-  void setStep(DesignStep step) {
-    state = state.copyWith(currentStep: step);
-  }
-
-  void updateParams(Map<String, dynamic> params) {
-    state = state.copyWith(params: {...state.params, ...params});
-  }
+  void selectClothingType(String id) =>
+      state = state.copyWith(selectedClothingType: id, currentStep: DesignStep.initial);
 
   Future<void> generateFlatDesign() async {
-    if (!state.canGenerate) return;
-
+    if (!state.canGenerate || state.isGenerating) return;
     state = state.copyWith(isGenerating: true, errorMessage: null);
-
     try {
-      final service = ref.read(flatDesignServiceProvider);
-      final design = await service.generate(
-        silhouetteId: state.selectedClothingType!,
-        patternId: state.selectedPattern!,
-        materialId: state.selectedMaterial!,
-        styleId: state.selectedStyle!,
-        audienceId: state.selectedAudience!,
-        aiModelId: state.selectedModel!,
-        params: state.params.isNotEmpty ? state.params : null,
-      );
-
-      // 轮询检查生成状�?
-      await _pollGenerationStatus(design.id);
-    } catch (e) {
+      final result = await ref.read(flatDesignServiceProvider).generate(
+            silhouetteId: state.selectedClothingType!,
+            patternId: state.selectedPattern!,
+            materialId: state.selectedMaterial!,
+            styleId: state.selectedStyle!,
+            audienceId: state.selectedAudience!,
+            aiModelId: state.selectedModel!,
+            params: state.params,
+          );
       state = state.copyWith(
         isGenerating: false,
-        errorMessage: e.toString(),
-      );
-    }
-  }
-
-  Future<void> _pollGenerationStatus(String designId) async {
-    final service = ref.read(flatDesignServiceProvider);
-
-    while (true) {
-      await Future.delayed(const Duration(seconds: 2));
-
-      try {
-        final status = await service.getStatus(designId);
-
-        if (status['status'] == 'done') {
-          state = state.copyWith(
-            isGenerating: false,
-            generatedImageUrl: status['image_url'] as String?,
-            generatedDesignId: designId,
-          );
-          break;
-        } else if (status['status'] == 'failed') {
-          state = state.copyWith(
-            isGenerating: false,
-            errorMessage: status['error_msg'] as String? ?? '生成失败',
-          );
-          break;
-        }
-      } catch (e) {
-        state = state.copyWith(
-          isGenerating: false,
-          errorMessage: e.toString(),
-        );
-        break;
-      }
-    }
-  }
-
-  Future<void> regenerate() async {
-    if (state.generatedDesignId == null || !state.canRegenerate) return;
-
-    state = state.copyWith(isGenerating: true, errorMessage: null);
-
-    try {
-      final service = ref.read(flatDesignServiceProvider);
-      final design = await service.regenerate(state.generatedDesignId!);
-
-      await _pollGenerationStatus(design.id);
-      
-      // 更新重新生成次数
-      state = state.copyWith(
-        regenerateCount: state.regenerateCount + 1,
+        generatedImageUrl: result.imageUrl,
+        generatedDesignId: result.id,
       );
     } catch (e) {
-      state = state.copyWith(
-        isGenerating: false,
-        errorMessage: e.toString(),
-      );
+      state = state.copyWith(isGenerating: false, errorMessage: e.toString());
     }
   }
 
   Future<void> generateRandomDesign() async {
+    if (state.isGenerating) return;
     state = state.copyWith(isGenerating: true, errorMessage: null);
-
     try {
-      final service = ref.read(flatDesignServiceProvider);
-      final design = await service.generateRandom();
-
-      // 轮询检查生成状�?
-      await _pollGenerationStatus(design.id);
-    } catch (e) {
+      final result = await ref.read(flatDesignServiceProvider).generateRandom();
       state = state.copyWith(
         isGenerating: false,
-        errorMessage: e.toString(),
+        generatedImageUrl: result.imageUrl,
+        generatedDesignId: result.id,
       );
+    } catch (e) {
+      state = state.copyWith(isGenerating: false, errorMessage: e.toString());
+    }
+  }
+
+  Future<void> regenerate() async {
+    final designId = state.generatedDesignId;
+    if (designId == null || state.isGenerating) return;
+    state = state.copyWith(isGenerating: true, errorMessage: null);
+    try {
+      final result =
+          await ref.read(flatDesignServiceProvider).regenerate(designId);
+      state = state.copyWith(
+        isGenerating: false,
+        generatedImageUrl: result.imageUrl,
+        regenerateCount: state.regenerateCount + 1,
+      );
+    } catch (e) {
+      state = state.copyWith(isGenerating: false, errorMessage: e.toString());
     }
   }
 
   void reset() {
     state = const DesignFlatState();
-    loadOptions();
+    Future.microtask(() => _loadOptions());
   }
 }
 
 final designFlatViewModelProvider =
     NotifierProvider<DesignFlatViewModel, DesignFlatState>(
-  DesignFlatViewModel.new,
-);
+        DesignFlatViewModel.new);

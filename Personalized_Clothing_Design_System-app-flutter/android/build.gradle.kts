@@ -2,6 +2,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        maven("https://mirrors.tuna.tsinghua.edu.cn/flutter/download.flutter.io")
     }
 }
 

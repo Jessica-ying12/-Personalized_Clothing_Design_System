@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/unimp/unimp.dart';
+import '../../core/unimp/unimp_service.dart';
 import 'unimp_demo_state.dart';
 
 class UniMPDemoViewModel extends Notifier<UniMPDemoState> {

@@ -1,8 +1,8 @@
+import '../../app/flavors.dart';
+
 abstract class AppConfig {
-  // TODO: 替换为实际的 Supabase 项目 URL
-  static const String supabaseUrl = 'https://your-project-ref.supabase.co';
-  static const String apiBaseUrl = '$supabaseUrl/functions/v1';
-  
+  static String get apiBaseUrl => '${F.apiBaseUrl}/functions/v1';
+
   // API 端点
   static const String authApi = '/auth-api';
   static const String profileApi = '/profile-api';

@@ -15,7 +15,7 @@ Dio createDio() {
     sendTimeout: const Duration(seconds: 15),
   ));
 
-  // æ‰§è¡Œé“? Retry â†?Auth â†?Log â†?[è¯·æ±‚] â†?Error
+  // é¡ºåº: Retry -> Auth -> Log -> [è¯·æ±‚] -> Error
   dio.interceptors.addAll([
     RetryInterceptor(dio: dio),
     AuthInterceptor(),

@@ -1,14 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/network/api/website/website_api.dart';
-import '../../core/network/client/dio_client.dart';
 import '../../core/network/client/result.dart';
+import '../../core/providers/service_providers.dart';
 import '../../core/supabase/supabase.dart';
 import '../../logger/logger.dart';
 import 'test_state.dart';
 
 final websiteApiProvider = Provider<WebsiteApi>((ref) {
-  return WebsiteApi(ref.watch(dioProvider));
+  return WebsiteApi(ref.watch(apiClientProvider).dio);
 });
 
 class TestViewModel extends Notifier<TestState> {

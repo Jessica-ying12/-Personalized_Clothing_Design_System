@@ -141,4 +141,22 @@ class Design3dService {
       data: {'design_id': designId},
     );
   }
+
+  Future<int> batchRemove(List<String> designIds) async {
+    final response = await _apiClient.post(
+      '${AppConfig.design3dApi}/batch-remove',
+      data: {'design_ids': designIds},
+    );
+    final data = response.data as Map<String, dynamic>;
+    return data['count'] as int? ?? 0;
+  }
+
+  Future<int> batchSave(List<String> designIds) async {
+    final response = await _apiClient.post(
+      '${AppConfig.design3dApi}/batch-save',
+      data: {'design_ids': designIds},
+    );
+    final data = response.data as Map<String, dynamic>;
+    return data['count'] as int? ?? 0;
+  }
 }

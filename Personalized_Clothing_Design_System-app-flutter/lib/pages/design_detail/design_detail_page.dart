@@ -8,12 +8,8 @@ import '../../app/theme/app_text_styles.dart';
 import '../../shared/utils/download_helper.dart';
 import '../gallery/gallery_state.dart';
 
-/// 设计详情�?- 查看设计的详细信息和大图
 class DesignDetailPage extends ConsumerWidget {
-  const DesignDetailPage({
-    super.key,
-    required this.designItem,
-  });
+  const DesignDetailPage({super.key, required this.designItem});
 
   final DesignItem designItem;
 
@@ -43,7 +39,6 @@ class DesignDetailPage extends ConsumerWidget {
       ),
       body: Column(
         children: [
-          // 图片展示区域
           Expanded(
             child: Center(
               child: InteractiveViewer(
@@ -52,25 +47,17 @@ class DesignDetailPage extends ConsumerWidget {
                 child: Image.network(
                   designItem.imageUrl,
                   fit: BoxFit.contain,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.broken_image,
-                          size: 80,
-                          color: AppColors.grey400,
-                        ),
-                        const SizedBox(height: AppSpacing.md),
-                        Text(
-                          FlutterI18n.translate(context, 'design_detail.load_failed'),
-                          style: AppTextStyles.bodyMd.copyWith(
-                            color: AppColors.grey400,
-                          ),
-                        ),
-                      ],
-                    );
-                  },
+                  errorBuilder: (context, error, stackTrace) => Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.broken_image, size: 80, color: AppColors.grey400),
+                      const SizedBox(height: AppSpacing.md),
+                      Text(
+                        FlutterI18n.translate(context, 'design_detail.load_failed'),
+                        style: AppTextStyles.bodyMd.copyWith(color: AppColors.grey400),
+                      ),
+                    ],
+                  ),
                   loadingBuilder: (context, child, loadingProgress) {
                     if (loadingProgress == null) return child;
                     return Center(
@@ -87,7 +74,6 @@ class DesignDetailPage extends ConsumerWidget {
               ),
             ),
           ),
-          // 信息�?
           Container(
             padding: const EdgeInsets.all(AppSpacing.md),
             decoration: BoxDecoration(
@@ -114,9 +100,7 @@ class DesignDetailPage extends ConsumerWidget {
                         designItem.type == DesignType.flat
                             ? FlutterI18n.translate(context, 'design_detail.flat_design')
                             : FlutterI18n.translate(context, 'design_detail.3d_design'),
-                        style: AppTextStyles.titleMd.copyWith(
-                          color: AppColors.grey800,
-                        ),
+                        style: AppTextStyles.titleMd.copyWith(color: AppColors.grey800),
                       ),
                     ),
                   ],
@@ -124,26 +108,18 @@ class DesignDetailPage extends ConsumerWidget {
                 const SizedBox(height: AppSpacing.sm),
                 Row(
                   children: [
-                    Icon(
-                      Icons.access_time,
-                      size: 16,
-                      color: AppColors.grey500,
-                    ),
+                    Icon(Icons.access_time, size: 16, color: AppColors.grey500),
                     const SizedBox(width: AppSpacing.xs),
                     Text(
                       _formatDate(designItem.createdAt),
-                      style: AppTextStyles.bodySm.copyWith(
-                        color: AppColors.grey600,
-                      ),
+                      style: AppTextStyles.bodySm.copyWith(color: AppColors.grey600),
                     ),
                   ],
                 ),
-                const SizedBox(height: AppSpacing.md),
+                const SizedBox(height: AppSpacing.sm),
                 Text(
                   FlutterI18n.translate(context, 'design_detail.pinch_to_zoom'),
-                  style: AppTextStyles.bodySm.copyWith(
-                    color: AppColors.grey500,
-                  ),
+                  style: AppTextStyles.bodySm.copyWith(color: AppColors.grey500),
                 ),
               ],
             ),
@@ -154,19 +130,21 @@ class DesignDetailPage extends ConsumerWidget {
   }
 
   String _formatDate(DateTime date) {
-    return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')} '
-        '${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
+    return '${date.year}-${date.month.toString().padLeft(2, '0')}-'
+        '${date.day.toString().padLeft(2, '0')} '
+        '${date.hour.toString().padLeft(2, '0')}:'
+        '${date.minute.toString().padLeft(2, '0')}';
   }
 
   Future<void> _downloadImage(BuildContext context) async {
     try {
-      final fileName = 'design_${designItem.id}_${DateTime.now().millisecondsSinceEpoch}.png';
+      final fileName =
+          'design_${designItem.id}_${DateTime.now().millisecondsSinceEpoch}.png';
       final path = await DownloadHelper.downloadImage(
         context,
         designItem.imageUrl,
         fileName,
       );
-      
       if (path != null && context.mounted) {
         DownloadHelper.showDownloadSuccess(context, path);
       }
@@ -178,8 +156,6 @@ class DesignDetailPage extends ConsumerWidget {
   }
 
   void _shareImage(BuildContext context) {
-    // TODO: 实现图片分享功能
-    // 可以使用 share_plus �?
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(

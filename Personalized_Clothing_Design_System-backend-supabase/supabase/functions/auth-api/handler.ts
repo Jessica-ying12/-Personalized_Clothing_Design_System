@@ -147,7 +147,7 @@ async function handleMagicLink(req: Request, deps: AuthApiDeps): Promise<Respons
     return jsonResponse({ error: "Failed to send magic link", detail: result.error }, 400);
   }
 
-  return jsonResponse({ message: "Check your email for login link" }, 200);
+  return jsonResponse({ message: "Check your email for the 6-digit verification code" }, 200);
 }
 
 async function handleChangePassword(req: Request, deps: AuthApiDeps): Promise<Response> {
@@ -287,10 +287,11 @@ export function createRuntimeDeps(): AuthApiDeps {
       return { user: data.user, session: data.session, error: error?.message ?? null };
     },
     async signInWithMagicLink(email) {
+      // 发送6位数字 OTP 验证码（不使用 magic link 跳转）
       const { error } = await anonClient.auth.signInWithOtp({
         email,
         options: {
-          emailRedirectTo: `${Deno.env.get("SITE_URL") ?? "http://localhost:3000"}/auth/callback`,
+          shouldCreateUser: true,
         },
       });
       return { error: error?.message ?? null };

@@ -34,7 +34,7 @@ class AuthRepository {
     required String token,
   }) =>
       _client.auth.verifyOTP(
-        type: OtpType.magiclink,
+        type: OtpType.email,
         email: email,
         token: token,
       );
