@@ -1,0 +1,53 @@
+{
+  "skill_name": "ai-generator",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "/ai-generator:gen hammer_feedback",
+      "expected_output": "生成 DO/VO/DAO/Service/Controller + Vue 页面 + API + 菜单 SQL，共 9 个文件",
+      "assertions": [
+        {
+          "text": "生成的 DO 文件包含正确的 __tablename__",
+          "type": "contains"
+        },
+        {
+          "text": "VO 使用 type | None 语法而非 Optional",
+          "type": "pattern"
+        },
+        {
+          "text": "Controller 权限标识使用 : 分隔",
+          "type": "pattern"
+        }
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "/ai-generator:gen hammer_test_device",
+      "expected_output": "多级前缀表名的正确解析：DO 类名为 TestDevice，权限为 hammer:test:device",
+      "assertions": [
+        {
+          "text": "DO 类名去掉第一级前缀后 PascalCase",
+          "type": "naming"
+        },
+        {
+          "text": "路由前缀正确推导为 /hammer/test/device",
+          "type": "routing"
+        }
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "/ai-generator:gen sys_config",
+      "expected_output": "sys 前缀表的正确处理，模块目录推断为 module_system",
+      "assertions": [
+        {
+          "text": "能识别非 hammer 前缀的表名",
+          "type": "prefix"
+        }
+      ],
+      "files": []
+    }
+  ]
+}

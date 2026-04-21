@@ -1,0 +1,12 @@
+{
+  "kb": {
+    "text_please_input_folder_name": "Please input folder name",
+    "text_please_input_file_name": "Please input file name",
+    "text_root_path": "Root",
+    "text_kb_name": "Knowledge base name",
+    "text_search_test": "Search Test",
+    "text_test": "Test",
+    "text_test_result": "Test Result",
+    "text_score": "Score"
+  }
+}

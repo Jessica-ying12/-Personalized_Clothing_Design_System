@@ -11,25 +11,24 @@ class AuthService {
   Future<Map<String, dynamic>> register({
     required String email,
     required String password,
-    required String fullName,
+    String? fullName,
   }) async {
     final response = await _apiClient.post(
       '${AppConfig.authApi}/register',
       data: {
         'email': email,
         'password': password,
-        'full_name': fullName,
+        if (fullName != null) 'nickname': fullName,
       },
     );
 
-    final data = response.data as Map<String, dynamic>;
-    final session = data['session'] as Map<String, dynamic>;
-    final token = session['access_token'] as String;
-    final user = UserModel.fromJson(data['user'] as Map<String, dynamic>);
+    final resp = response.data as Map<String, dynamic>;
+    final data = resp['data'] as Map<String, dynamic>;
+    final token = data['token'] as String;
 
     await SecureStorage.saveToken(token);
-    await SecureStorage.saveUserId(user.id);
-    await SecureStorage.saveEmail(user.email);
+    await SecureStorage.saveUserId(data['user_id'].toString());
+    await SecureStorage.saveEmail(data['email'] as String);
 
     return data;
   }
@@ -40,44 +39,77 @@ class AuthService {
   }) async {
     final response = await _apiClient.post(
       '${AppConfig.authApi}/login',
-      data: {
-        'email': email,
-        'password': password,
-      },
+      data: {'email': email, 'password': password},
     );
 
-    final data = response.data as Map<String, dynamic>;
-    final session = data['session'] as Map<String, dynamic>;
-    final token = session['access_token'] as String;
-    final user = UserModel.fromJson(data['user'] as Map<String, dynamic>);
+    final resp = response.data as Map<String, dynamic>;
+    final data = resp['data'] as Map<String, dynamic>;
+    final token = data['token'] as String;
 
     await SecureStorage.saveToken(token);
-    await SecureStorage.saveUserId(user.id);
-    await SecureStorage.saveEmail(user.email);
+    await SecureStorage.saveUserId(data['user_id'].toString());
+    await SecureStorage.saveEmail(data['email'] as String);
+
+    return data;
+  }
+
+  Future<void> sendOtp({required String email}) async {
+    await _apiClient.post(
+      '${AppConfig.authApi}/send-otp',
+      data: {'email': email},
+    );
+  }
+
+  Future<Map<String, dynamic>> verifyOtp({
+    required String email,
+    required String code,
+  }) async {
+    final response = await _apiClient.post(
+      '${AppConfig.authApi}/verify-otp',
+      data: {'email': email, 'code': code},
+    );
+
+    final resp = response.data as Map<String, dynamic>;
+    final data = resp['data'] as Map<String, dynamic>;
+    final token = data['token'] as String;
+
+    await SecureStorage.saveToken(token);
+    await SecureStorage.saveUserId(data['user_id'].toString());
+    await SecureStorage.saveEmail(data['email'] as String);
 
     return data;
   }
 
   Future<UserModel> getMe() async {
-    final response = await _apiClient.get('${AppConfig.authApi}/me');
-    final data = response.data as Map<String, dynamic>;
-    return UserModel.fromJson(data['user'] as Map<String, dynamic>);
+    final response = await _apiClient.get('${AppConfig.profileApi}/me');
+    final resp = response.data as Map<String, dynamic>;
+    final data = resp['data'] as Map<String, dynamic>;
+    return UserModel(
+      id: data['user_id'].toString(),
+      email: data['email'] as String,
+      fullName: data['nickname'] as String? ?? '',
+      avatarUrl: data['avatar_url'] as String?,
+      createdAt: DateTime.now(),
+    );
   }
 
   Future<void> logout() async {
+    try {
+      await _apiClient.post('${AppConfig.authApi}/logout');
+    } catch (_) {}
     await SecureStorage.clear();
   }
 
-  Future<void> changePassword(String newPassword) async {
+  Future<void> changePassword(String newPassword, {String oldPassword = ''}) async {
     await _apiClient.post(
       '${AppConfig.authApi}/change-password',
-      data: {'new_password': newPassword},
+      data: {'old_password': oldPassword, 'new_password': newPassword},
     );
   }
 
   Future<void> resetPassword({required String email}) async {
     await _apiClient.post(
-      '${AppConfig.authApi}/reset-password',
+      '${AppConfig.authApi}/send-otp',
       data: {'email': email},
     );
   }

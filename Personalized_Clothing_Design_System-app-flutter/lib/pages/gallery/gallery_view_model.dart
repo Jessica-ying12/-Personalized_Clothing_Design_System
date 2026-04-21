@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/models/design_3d_model.dart';
+import '../../core/models/flat_design_model.dart';
 import '../../core/providers/service_providers.dart';
 import 'gallery_state.dart';
 
@@ -20,7 +22,8 @@ class GalleryViewModel extends Notifier<GalleryState> {
       final design3dResult = await design3dService.getList();
 
       final flatItems = (flatResult['data'] as List)
-          .where((e) => e.imageUrl != null)
+          .cast<FlatDesignModel>()
+          .where((e) => e.imageUrl != null && e.imageUrl!.isNotEmpty)
           .map((e) => DesignItem(
                 id: e.id,
                 imageUrl: e.imageUrl!,
@@ -30,7 +33,8 @@ class GalleryViewModel extends Notifier<GalleryState> {
           .toList();
 
       final design3dItems = (design3dResult['data'] as List)
-          .where((e) => e.imageUrl != null)
+          .cast<Design3dModel>()
+          .where((e) => e.imageUrl != null && e.imageUrl!.isNotEmpty)
           .map((e) => DesignItem(
                 id: e.id,
                 imageUrl: e.imageUrl!,
@@ -40,8 +44,8 @@ class GalleryViewModel extends Notifier<GalleryState> {
           .toList();
 
       state = state.copyWith(
-        flatDesigns: flatItems,
-        design3ds: design3dItems,
+        flatDesigns: flatItems..sort((a, b) => b.createdAt.compareTo(a.createdAt)),
+        design3ds: design3dItems..sort((a, b) => b.createdAt.compareTo(a.createdAt)),
         isLoading: false,
       );
     } catch (_) {

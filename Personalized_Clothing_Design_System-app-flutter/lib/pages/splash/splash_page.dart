@@ -23,6 +23,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
   Future<void> _checkAuthAndNavigate() async {
     await Future.delayed(const Duration(milliseconds: 1500));
     if (!mounted) return;
+
     try {
       final token = await SecureStorage.getToken();
       if (token != null && token.isNotEmpty) {

@@ -9,7 +9,8 @@ import 'history_state.dart';
 class HistoryViewModel extends Notifier<HistoryState> {
   @override
   HistoryState build() {
-    loadHistory();
+    // 用 Future.microtask 避免在 build 期间读取未初始化的 state
+    Future.microtask(() => loadHistory());
     return const HistoryState();
   }
 
@@ -31,7 +32,8 @@ class HistoryViewModel extends Notifier<HistoryState> {
       final flatResult = await flatService.getHistory(page: page, pageSize: 20);
       final design3dResult = await design3dService.getHistory(page: page, pageSize: 20);
 
-      final flatDesigns = (flatResult['data'] as List<FlatDesignModel>)
+      final flatDesigns = (flatResult['data'] as List)
+          .cast<FlatDesignModel>()
           .map((e) => DesignItem(
                 id: e.id,
                 imageUrl: e.imageUrl ?? '',
@@ -40,7 +42,8 @@ class HistoryViewModel extends Notifier<HistoryState> {
               ))
           .toList();
 
-      final design3ds = (design3dResult['data'] as List<Design3dModel>)
+      final design3ds = (design3dResult['data'] as List)
+          .cast<Design3dModel>()
           .map((e) => DesignItem(
                 id: e.id,
                 imageUrl: e.imageUrl ?? '',
@@ -90,17 +93,12 @@ class HistoryViewModel extends Notifier<HistoryState> {
   Future<void> deleteDesign(String id, DesignType type) async {
     try {
       if (type == DesignType.flat) {
-        final service = ref.read(flatDesignServiceProvider);
-        await service.remove(id);
+        await ref.read(flatDesignServiceProvider).historyRemove(id);
       } else {
-        final service = ref.read(design3dServiceProvider);
-        await service.remove(id);
+        await ref.read(design3dServiceProvider).historyRemove(id);
       }
-      // 重新加载列表
       await loadHistory();
-    } catch (e) {
-      // 显示错误
-    }
+    } catch (_) {}
   }
 
   /// 刷新历史记录（下拉刷新使用）

@@ -15,12 +15,13 @@ class UserModel {
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      id: json['id'] as String,
+      id: (json['id'] ?? json['user_id'])?.toString() ?? '',
       email: json['email'] as String,
-      fullName: json['full_name'] as String?,
+      // 后端返回 nickname，兼容旧字段 full_name
+      fullName: (json['nickname'] ?? json['full_name']) as String?,
       avatarUrl: json['avatar_url'] as String?,
       createdAt: json['created_at'] != null
-          ? DateTime.parse(json['created_at'] as String)
+          ? DateTime.tryParse(json['created_at'] as String)
           : null,
     );
   }

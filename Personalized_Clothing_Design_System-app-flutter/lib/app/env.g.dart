@@ -12,14 +12,15 @@ part of 'env.dart';
 final class _EnvDev {
   static const String appName = 'PCDS Dev';
 
-  static const String apiBaseUrl = 'http://hammer-gateway.explorex-ai.com';
+  // Android 模拟器访问宿主机用 10.0.2.2
+  // 真机调试用局域网 IP：192.168.1.5
+  static const String apiBaseUrl = 'http://192.168.1.5:9099';
 
   static const bool enableLog = true;
 
-  static const String supabaseUrl = 'https://pdqfpsslowpirrowblww.supabase.co';
+  static const String supabaseUrl = 'https://placeholder.supabase.co';
 
-  static const String supabaseAnonKey =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBkcWZwc3Nsb3dwaXJyb3dibHd3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxMTcwNzUsImV4cCI6MjA4ODY5MzA3NX0.wEdTnt0ixb1BF6NuLr69llGXQ3iX6lxpDN-nah-HZiY';
+  static const String supabaseAnonKey = 'placeholder_anon_key';
 }
 
 // coverage:ignore-file
@@ -28,14 +29,14 @@ final class _EnvDev {
 final class _EnvPreview {
   static const String appName = 'PCDS Preview';
 
-  static const String apiBaseUrl = 'http://hammer-gateway.explorex-ai.com';
+  // 真机调试时改为：http://192.168.1.5:9099/dev-api
+  static const String apiBaseUrl = 'http://10.0.2.2:9099';
 
   static const bool enableLog = true;
 
-  static const String supabaseUrl = 'https://pdqfpsslowpirrowblww.supabase.co';
+  static const String supabaseUrl = 'https://placeholder.supabase.co';
 
-  static const String supabaseAnonKey =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBkcWZwc3Nsb3dwaXJyb3dibHd3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxMTcwNzUsImV4cCI6MjA4ODY5MzA3NX0.wEdTnt0ixb1BF6NuLr69llGXQ3iX6lxpDN-nah-HZiY';
+  static const String supabaseAnonKey = 'placeholder_anon_key';
 }
 
 // coverage:ignore-file
@@ -44,12 +45,11 @@ final class _EnvPreview {
 final class _EnvProd {
   static const String appName = 'PCDS';
 
-  static const String apiBaseUrl = 'http://hammer-gateway.explorex-ai.com';
+  static const String apiBaseUrl = 'http://10.0.2.2:9099';
 
   static const bool enableLog = false;
 
-  static const String supabaseUrl = 'https://pdqfpsslowpirrowblww.supabase.co';
+  static const String supabaseUrl = 'https://placeholder.supabase.co';
 
-  static const String supabaseAnonKey =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBkcWZwc3Nsb3dwaXJyb3dibHd3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxMTcwNzUsImV4cCI6MjA4ODY5MzA3NX0.wEdTnt0ixb1BF6NuLr69llGXQ3iX6lxpDN-nah-HZiY';
+  static const String supabaseAnonKey = 'placeholder_anon_key';
 }

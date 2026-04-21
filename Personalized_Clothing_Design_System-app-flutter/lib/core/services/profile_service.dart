@@ -10,24 +10,25 @@ class ProfileService {
     String? fullName,
     String? avatarUrl,
   }) async {
-    final response = await _apiClient.post(
+    final response = await _apiClient.put(
       '${AppConfig.profileApi}/update',
       data: {
-        if (fullName != null) 'full_name': fullName,
+        if (fullName != null) 'nickname': fullName,
         if (avatarUrl != null) 'avatar_url': avatarUrl,
       },
     );
 
-    return response.data as Map<String, dynamic>;
+    final resp = response.data as Map<String, dynamic>;
+    return resp['data'] as Map<String, dynamic>? ?? {};
   }
 
   Future<void> deleteAccount() async {
-    await _apiClient.delete('${AppConfig.profileApi}/account');
+    await _apiClient.delete('${AppConfig.profileApi}/delete');
   }
 
   Future<Map<String, dynamic>> getStats() async {
     final response = await _apiClient.get('${AppConfig.profileApi}/stats');
-    final data = response.data as Map<String, dynamic>;
-    return data['data'] as Map<String, dynamic>;
+    final resp = response.data as Map<String, dynamic>;
+    return resp['data'] as Map<String, dynamic>? ?? {};
   }
 }

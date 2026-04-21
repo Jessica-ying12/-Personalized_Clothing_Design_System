@@ -1,8 +1,5 @@
 abstract class RouteName {
   static const splash = '/splash';
-  static const home = '/';
-  static const test = '/test';
-  static const unimpDemo = '/unimp-demo';
   static const login = '/login';
   static const main = '/main';
   static const designFlat = '/design-flat';
@@ -11,6 +8,4 @@ abstract class RouteName {
   static const profile = '/profile';
   static const profileEdit = '/profile-edit';
   static const history = '/history';
-  static const settings = '/settings';
-  static const designDetail = '/design-detail';
 }

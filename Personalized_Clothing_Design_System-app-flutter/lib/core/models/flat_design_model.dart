@@ -8,6 +8,7 @@ class FlatDesignModel {
     required this.styleId,
     required this.audienceId,
     required this.aiModelId,
+    this.colorId,
     this.params,
     this.imageUrl,
     required this.status,
@@ -20,15 +21,16 @@ class FlatDesignModel {
 
   final String id;
   final String userId;
-  final String silhouetteId;
-  final String patternId;
-  final String materialId;
-  final String styleId;
-  final String audienceId;
-  final String aiModelId;
+  final String silhouetteId;   // 对应后端 clothing_type_code
+  final String patternId;      // 对应后端 pattern_code
+  final String materialId;     // 对应后端 material_code
+  final String styleId;        // 对应后端 style_code
+  final String audienceId;     // 对应后端 audience_code
+  final String aiModelId;      // 对应后端 ai_model_code
+  final String? colorId;       // 对应后端 color_code
   final Map<String, dynamic>? params;
   final String? imageUrl;
-  final String status; // pending, processing, done, failed
+  final String status;
   final String? errorMsg;
   final int regenCount;
   final bool isSaved;
@@ -37,25 +39,26 @@ class FlatDesignModel {
 
   factory FlatDesignModel.fromJson(Map<String, dynamic> json) {
     return FlatDesignModel(
-      id: json['id'] as String,
-      userId: json['user_id'] as String,
-      silhouetteId: json['silhouette_id'] as String? ?? '',
-      patternId: json['pattern_id'] as String? ?? '',
-      materialId: json['material_id'] as String? ?? '',
-      styleId: json['style_id'] as String? ?? '',
-      audienceId: json['audience_id'] as String? ?? '',
-      aiModelId: json['ai_model_id'] as String? ?? '',
+      id: json['id']?.toString() ?? '',
+      userId: json['user_id']?.toString() ?? '',
+      silhouetteId: (json['clothing_type_code'] ?? '') as String,
+      patternId: (json['pattern_code'] ?? '') as String,
+      materialId: (json['material_code'] ?? '') as String,
+      styleId: (json['style_code'] ?? '') as String,
+      audienceId: (json['audience_code'] ?? '') as String,
+      aiModelId: (json['ai_model_code'] ?? '') as String,
+      colorId: json['color_code'] as String?,
       params: json['params'] as Map<String, dynamic>?,
       imageUrl: json['image_url'] as String?,
-      status: json['status'] as String,
+      status: json['status'] as String? ?? 'done',
       errorMsg: json['error_msg'] as String?,
       regenCount: json['regen_count'] as int? ?? 0,
       isSaved: json['is_saved'] as bool? ?? true,
       createdAt: json['created_at'] != null
-          ? DateTime.parse(json['created_at'] as String)
+          ? DateTime.tryParse(json['created_at'] as String)
           : null,
       updatedAt: json['updated_at'] != null
-          ? DateTime.parse(json['updated_at'] as String)
+          ? DateTime.tryParse(json['updated_at'] as String)
           : null,
     );
   }
@@ -64,12 +67,13 @@ class FlatDesignModel {
     return {
       'id': id,
       'user_id': userId,
-      'silhouette_id': silhouetteId,
-      'pattern_id': patternId,
-      'material_id': materialId,
-      'style_id': styleId,
-      'audience_id': audienceId,
-      'ai_model_id': aiModelId,
+      'clothing_type_code': silhouetteId,
+      'pattern_code': patternId,
+      'material_code': materialId,
+      'style_code': styleId,
+      'audience_code': audienceId,
+      'ai_model_code': aiModelId,
+      'color_code': colorId,
       'params': params,
       'image_url': imageUrl,
       'status': status,

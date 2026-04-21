@@ -3,6 +3,7 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
+import '../../shared/widgets/ai_chat/ai_chat_bubble.dart';
 import '../design_flat/design_flat_page.dart';
 import '../gallery/gallery_page.dart';
 import '../profile/profile_page.dart';
@@ -23,15 +24,21 @@ class MainPage extends ConsumerWidget {
     ];
 
     return Scaffold(
-      body: IndexedStack(
-        index: state.currentIndex,
-        children: pages,
+      body: Stack(
+        children: [
+          IndexedStack(
+            index: state.currentIndex,
+            children: pages,
+          ),
+          const AiChatBubble(),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: state.currentIndex,
         onTap: viewModel.setCurrentIndex,
         selectedItemColor: AppColors.primary,
         unselectedItemColor: AppColors.grey400,
+        type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
             icon: const Icon(Icons.design_services),

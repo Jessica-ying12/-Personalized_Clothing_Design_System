@@ -1,20 +1,14 @@
 import 'package:go_router/go_router.dart';
 
 import '../../pages/design_3d/design_3d_page.dart';
-import '../../pages/design_detail/design_detail_page.dart';
 import '../../pages/design_flat/design_flat_page.dart';
 import '../../pages/gallery/gallery_page.dart';
-import '../../pages/gallery/gallery_state.dart';
 import '../../pages/history/history_page.dart';
-import '../../pages/home/home_page.dart';
 import '../../pages/login/login_page.dart';
 import '../../pages/main/main_page.dart';
 import '../../pages/profile/profile_page.dart';
 import '../../pages/profile_edit/profile_edit_page.dart';
-import '../../pages/settings/settings_page.dart';
 import '../../pages/splash/splash_page.dart';
-import '../../pages/test/test_page.dart';
-import '../../pages/unimp_demo/unimp_demo_page.dart';
 import 'route_names.dart';
 
 final router = GoRouter(
@@ -23,18 +17,6 @@ final router = GoRouter(
     GoRoute(
       path: RouteName.splash,
       builder: (context, state) => const SplashPage(),
-    ),
-    GoRoute(
-      path: RouteName.home,
-      builder: (context, state) => const HomePage(),
-    ),
-    GoRoute(
-      path: RouteName.test,
-      builder: (context, state) => const TestPage(),
-    ),
-    GoRoute(
-      path: RouteName.unimpDemo,
-      builder: (context, state) => const UniMPDemoPage(),
     ),
     GoRoute(
       path: RouteName.login,
@@ -79,21 +61,6 @@ final router = GoRouter(
     GoRoute(
       path: RouteName.history,
       builder: (context, state) => const HistoryPage(),
-    ),
-    GoRoute(
-      path: RouteName.settings,
-      builder: (context, state) => const SettingsPage(),
-    ),
-    GoRoute(
-      path: RouteName.designDetail,
-      builder: (context, state) {
-        final extra = state.extra as Map<String, dynamic>?;
-        final designItem = extra?['designItem'] as DesignItem?;
-        if (designItem == null) {
-          throw Exception('DesignItem is required for DesignDetailPage');
-        }
-        return DesignDetailPage(designItem: designItem);
-      },
     ),
   ],
 );

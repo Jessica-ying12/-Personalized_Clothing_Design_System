@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../app/theme/app_colors.dart';
 import '../../app/theme/app_spacing.dart';
 import '../../app/theme/app_text_styles.dart';
+import '../../shared/utils/download_helper.dart';
 import '../../shared/widgets/feedback/empty_state.dart';
 import '../gallery/gallery_state.dart';
 import 'history_state.dart';
@@ -214,6 +215,36 @@ class HistoryPage extends ConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            // 右上角下载按钮
+            Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding: const EdgeInsets.all(AppSpacing.sm),
+                child: IconButton(
+                  onPressed: () async {
+                    try {
+                      final fileName =
+                          'design_${item.id}_${DateTime.now().millisecondsSinceEpoch}.png';
+                      final path = await DownloadHelper.downloadImage(
+                          context, item.imageUrl, fileName);
+                      if (path != null && context.mounted) {
+                        DownloadHelper.showDownloadSuccess(context, path);
+                      }
+                    } catch (e) {
+                      if (context.mounted) {
+                        DownloadHelper.showDownloadError(context, e.toString());
+                      }
+                    }
+                  },
+                  icon: const Icon(Icons.download),
+                  tooltip: FlutterI18n.translate(context, 'gallery.download'),
+                  style: IconButton.styleFrom(
+                    backgroundColor: AppColors.surface,
+                    foregroundColor: AppColors.primary,
+                  ),
+                ),
+              ),
+            ),
             Image.network(
               item.imageUrl,
               fit: BoxFit.contain,

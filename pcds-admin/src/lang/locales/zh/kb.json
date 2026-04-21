@@ -1,0 +1,12 @@
+{
+  "kb": {
+    "text_please_input_folder_name": "请输入文件夹名称",
+    "text_please_input_file_name": "请输入文件名称",
+    "text_root_path": "根路径",
+    "text_kb_name": "知识库名称",
+    "text_search_test": "搜索测试",
+    "text_test": "测试",
+    "text_test_result": "测试结果",
+    "text_score": "得分"
+  }
+}

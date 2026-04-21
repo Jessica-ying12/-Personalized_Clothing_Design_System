@@ -1,5 +1,6 @@
 abstract final class BoxKeys {
   static const String app = 'app';
+  static const String designs = 'designs';
 }
 
 abstract final class AppKeys {

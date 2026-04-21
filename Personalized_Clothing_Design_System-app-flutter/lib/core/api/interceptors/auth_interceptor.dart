@@ -1,15 +1,18 @@
 import 'package:dio/dio.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
-class AuthInterceptor extends Interceptor {
+import '../../storage/secure_storage.dart';
+
+/// 认证拦截器：从本地安全存储读取 JWT Token，注入到请求头
+/// 使用 QueuedInterceptor 避免并发请求时的 token 读取竞争
+class AuthInterceptor extends QueuedInterceptor {
   @override
   void onRequest(
     RequestOptions options,
     RequestInterceptorHandler handler,
-  ) {
-    final session = Supabase.instance.client.auth.currentSession;
-    if (session != null) {
-      options.headers['Authorization'] = 'Bearer ${session.accessToken}';
+  ) async {
+    final token = await SecureStorage.getToken();
+    if (token != null && token.isNotEmpty) {
+      options.headers['Authorization'] = 'Bearer $token';
     }
     handler.next(options);
   }

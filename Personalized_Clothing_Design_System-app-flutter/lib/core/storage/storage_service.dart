@@ -23,3 +23,8 @@ class StorageService {
 final storageServiceProvider = Provider<StorageService>(
   (_) => throw UnimplementedError('storageServiceProvider not initialized'),
 );
+
+/// 专门用于 Mock 设计数据持久化的 box
+final designsStorageProvider = Provider<StorageService>(
+  (_) => throw UnimplementedError('designsStorageProvider not initialized'),
+);

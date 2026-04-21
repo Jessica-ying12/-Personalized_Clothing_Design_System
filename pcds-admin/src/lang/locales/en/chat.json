@@ -1,0 +1,10 @@
+{
+  "chat": {
+    "copy": "Copy",
+    "copied": "Copied",
+    "copyCode": "Copy Code",
+    "copyFailed": "Copy Failed",
+    "preview": "Preview",
+    "showRawText": "Show as raw text"
+  }
+}

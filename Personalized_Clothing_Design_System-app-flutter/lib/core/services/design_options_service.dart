@@ -9,23 +9,22 @@ class DesignOptionsService {
 
   Future<List<DesignOptionModel>> getOptions({String? category}) async {
     final response = await _apiClient.get(
-      '${AppConfig.designOptionsApi}/options',
+      '${AppConfig.designOptionsApi}/list',
       queryParameters: category != null ? {'category': category} : null,
     );
 
-    final data = response.data as Map<String, dynamic>;
-    final list = data['data'] as List;
-    return list.map((e) => DesignOptionModel.fromJson(e)).toList();
+    final resp = response.data as Map<String, dynamic>;
+    final list = resp['data'] as List;
+    return list.map((e) => DesignOptionModel.fromJson(e as Map<String, dynamic>)).toList();
   }
 
   Future<List<DesignOptionModel>> getChildren(String parentId) async {
     final response = await _apiClient.get(
-      '${AppConfig.designOptionsApi}/options/children',
-      queryParameters: {'parent_id': parentId},
+      '${AppConfig.designOptionsApi}/children/$parentId',
     );
 
-    final data = response.data as Map<String, dynamic>;
-    final list = data['data'] as List;
-    return list.map((e) => DesignOptionModel.fromJson(e)).toList();
+    final resp = response.data as Map<String, dynamic>;
+    final list = resp['data'] as List;
+    return list.map((e) => DesignOptionModel.fromJson(e as Map<String, dynamic>)).toList();
   }
 }

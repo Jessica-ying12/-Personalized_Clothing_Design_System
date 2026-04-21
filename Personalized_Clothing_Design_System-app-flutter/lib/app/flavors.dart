@@ -65,4 +65,7 @@ class F {
         return EnvProd.supabaseAnonKey;
     }
   }
+
+  /// Replicate API Token（虚拟试穿功能）
+  static const String replicateApiToken = 'r8_13DWl9wpY25rtVqQ89HZClvfa2EgKbF2xJLjs';
 }

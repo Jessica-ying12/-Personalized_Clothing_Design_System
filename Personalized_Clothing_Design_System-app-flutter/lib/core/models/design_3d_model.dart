@@ -20,13 +20,13 @@ class Design3dModel {
   final String id;
   final String userId;
   final String flatDesignId;
-  final String bodyShapeId;
-  final String skinColorId;
-  final String genderId;
-  final String aiModelId;
-  final String backgroundId;
+  final String bodyShapeId;   // 对应后端 body_type_code
+  final String skinColorId;   // 对应后端 skin_tone_code
+  final String genderId;      // 对应后端 gender_code
+  final String aiModelId;     // 对应后端 ai_model_code
+  final String backgroundId;  // 对应后端 background_code
   final String? imageUrl;
-  final String status; // pending, processing, done, failed
+  final String status;
   final String? errorMsg;
   final int regenCount;
   final bool isSaved;
@@ -35,24 +35,25 @@ class Design3dModel {
 
   factory Design3dModel.fromJson(Map<String, dynamic> json) {
     return Design3dModel(
-      id: json['id'] as String,
-      userId: json['user_id'] as String,
-      flatDesignId: json['flat_design_id'] as String,
-      bodyShapeId: json['body_shape_id'] as String? ?? '',
-      skinColorId: json['skin_color_id'] as String? ?? '',
-      genderId: json['gender_id'] as String? ?? '',
-      aiModelId: json['ai_model_id'] as String? ?? '',
-      backgroundId: json['background_id'] as String? ?? '',
+      id: json['id']?.toString() ?? '',
+      userId: json['user_id']?.toString() ?? '',
+      flatDesignId: json['flat_design_id']?.toString() ?? '',
+      // 后端统一使用 *_code 字段名
+      bodyShapeId: (json['body_type_code'] ?? '') as String,
+      skinColorId: (json['skin_tone_code'] ?? '') as String,
+      genderId: (json['gender_code'] ?? '') as String,
+      aiModelId: (json['ai_model_code'] ?? '') as String,
+      backgroundId: (json['background_code'] ?? '') as String,
       imageUrl: json['image_url'] as String?,
-      status: json['status'] as String,
+      status: json['status'] as String? ?? 'done',
       errorMsg: json['error_msg'] as String?,
       regenCount: json['regen_count'] as int? ?? 0,
       isSaved: json['is_saved'] as bool? ?? true,
       createdAt: json['created_at'] != null
-          ? DateTime.parse(json['created_at'] as String)
+          ? DateTime.tryParse(json['created_at'] as String)
           : null,
       updatedAt: json['updated_at'] != null
-          ? DateTime.parse(json['updated_at'] as String)
+          ? DateTime.tryParse(json['updated_at'] as String)
           : null,
     );
   }
@@ -62,11 +63,11 @@ class Design3dModel {
       'id': id,
       'user_id': userId,
       'flat_design_id': flatDesignId,
-      'body_shape_id': bodyShapeId,
-      'skin_color_id': skinColorId,
-      'gender_id': genderId,
-      'ai_model_id': aiModelId,
-      'background_id': backgroundId,
+      'body_type_code': bodyShapeId,
+      'skin_tone_code': skinColorId,
+      'gender_code': genderId,
+      'ai_model_code': aiModelId,
+      'background_code': backgroundId,
       'image_url': imageUrl,
       'status': status,
       'error_msg': errorMsg,

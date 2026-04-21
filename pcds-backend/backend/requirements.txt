@@ -1,0 +1,34 @@
+# 个性化服装设计系统 - 后端依赖
+# 安装命令：pip install -r requirements_pcds.txt
+
+# Web 框架
+fastapi[all]==0.115.8
+
+# 数据库
+SQLAlchemy[asyncio]==2.0.38
+aiomysql==0.2.0          # MySQL 异步驱动（纯Python，支持Python 3.14）
+# asyncpg==0.30.0        # PostgreSQL 异步驱动（如果使用 PostgreSQL 则取消注释）
+
+# 认证
+PyJWT[crypto]==2.10.1
+passlib[bcrypt]==1.7.4
+bcrypt==4.0.1
+
+# 配置管理
+python-dotenv==1.0.1
+pydantic-settings==2.7.0
+
+# HTTP 客户端（用于调用 AI 服务）
+httpx==0.27.0
+
+# 日志
+loguru==0.7.3
+
+# Redis（可选，用于 OTP 存储）
+redis==5.2.1
+
+# AI 集成（Gemini）
+# google-generativeai==0.8.3  # 取消注释并填入 GEMINI_API_KEY 后启用
+
+# 工具
+python-multipart==0.0.20

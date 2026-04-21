@@ -3,6 +3,8 @@ allprojects {
         google()
         mavenCentral()
         maven("https://mirrors.tuna.tsinghua.edu.cn/flutter/download.flutter.io")
+        maven("https://storage.flutter-io.cn/download.flutter.io")
+        maven("https://download.flutter.io")
     }
 }
 

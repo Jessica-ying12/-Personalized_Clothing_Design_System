@@ -104,9 +104,9 @@ class _ModeToggle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(child: _tab(context, LoginMode.password, '账号密码')),
+        Expanded(child: _tab(context, LoginMode.password, FlutterI18n.translate(context, 'login.mode_password'))),
         const SizedBox(width: AppSpacing.sm),
-        Expanded(child: _tab(context, LoginMode.otp, '邮箱验证码')),
+        Expanded(child: _tab(context, LoginMode.otp, FlutterI18n.translate(context, 'login.mode_otp'))),
       ],
     );
   }
@@ -175,7 +175,7 @@ class _PasswordSection extends ConsumerWidget {
           ),
           obscureText: true,
         ),
-        _ErrorText(message: state.errorMessage),
+        _ErrorText(state: state),
         const SizedBox(height: AppSpacing.lg),
         SizedBox(
           width: double.infinity,
@@ -310,7 +310,7 @@ class _OtpSection extends StatelessWidget {
             ),
             keyboardType: TextInputType.emailAddress,
           ),
-          _ErrorText(message: state.errorMessage),
+          _ErrorText(state: state),
           const SizedBox(height: AppSpacing.lg),
           SizedBox(
             width: double.infinity,
@@ -318,7 +318,7 @@ class _OtpSection extends StatelessWidget {
               onPressed: state.isLoading ? null : vm.sendOtp,
               child: state.isLoading
                   ? const _LoadingIndicator()
-                  : const Text('发送验证码'),
+                  : Text(FlutterI18n.translate(context, 'login.send_otp')),
             ),
           ),
         ],
@@ -329,7 +329,7 @@ class _OtpSection extends StatelessWidget {
     return Column(
       children: [
         Text(
-          '验证码已发送至 ${state.email}',
+          '${FlutterI18n.translate(context, 'login.otp_sent_hint')} ${state.email}',
           style: AppTextStyles.bodySm.copyWith(color: AppColors.grey600),
           textAlign: TextAlign.center,
         ),
@@ -337,7 +337,9 @@ class _OtpSection extends StatelessWidget {
         TextField(
           controller: otpController,
           onChanged: vm.setOtpCode,
-          decoration: const InputDecoration(hintText: '请输入6位验证码'),
+          decoration: InputDecoration(
+            hintText: FlutterI18n.translate(context, 'login.otp_hint'),
+          ),
           keyboardType: TextInputType.number,
           inputFormatters: [
             FilteringTextInputFormatter.digitsOnly,
@@ -346,7 +348,7 @@ class _OtpSection extends StatelessWidget {
           textAlign: TextAlign.center,
           style: AppTextStyles.headingLg,
         ),
-        _ErrorText(message: state.errorMessage),
+        _ErrorText(state: state),
         const SizedBox(height: AppSpacing.lg),
         SizedBox(
           width: double.infinity,
@@ -357,14 +359,16 @@ class _OtpSection extends StatelessWidget {
                     final ok = await vm.verifyOtp();
                     if (ok && context.mounted) onSuccess();
                   },
-            child: state.isLoading ? const _LoadingIndicator() : const Text('验证登录'),
+            child: state.isLoading
+                ? const _LoadingIndicator()
+                : Text(FlutterI18n.translate(context, 'login.verify_login')),
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
         TextButton(
           onPressed: vm.backToEmailInput,
           child: Text(
-            '重新发送',
+            FlutterI18n.translate(context, 'login.resend'),
             style: AppTextStyles.bodyMd.copyWith(color: AppColors.primary),
           ),
         ),
@@ -375,16 +379,23 @@ class _OtpSection extends StatelessWidget {
 
 // ── 公共小组件 ────────────────────────────────────────────────────
 class _ErrorText extends StatelessWidget {
-  const _ErrorText({this.message});
-  final String? message;
+  const _ErrorText({this.state});
+  final LoginState? state;
 
   @override
   Widget build(BuildContext context) {
-    if (message == null) return const SizedBox.shrink();
+    final s = state;
+    if (s == null || !s.hasError) return const SizedBox.shrink();
+
+    // 优先显示 i18n key 翻译，其次显示直接文本（服务端返回）
+    final text = s.errorMessageKey != null
+        ? FlutterI18n.translate(context, s.errorMessageKey!)
+        : s.errorMessage!;
+
     return Padding(
       padding: const EdgeInsets.only(top: AppSpacing.md),
       child: Text(
-        message!,
+        text,
         style: AppTextStyles.bodyMd.copyWith(color: AppColors.error),
       ),
     );

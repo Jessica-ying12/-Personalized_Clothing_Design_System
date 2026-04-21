@@ -19,29 +19,32 @@ class GalleryPage extends ConsumerWidget {
     final state = ref.watch(galleryViewModelProvider);
     final viewModel = ref.read(galleryViewModelProvider.notifier);
 
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        title: Text(FlutterI18n.translate(context, 'gallery.title')),
-        bottom: TabBar(
-          controller: null,
-          onTap: (index) {
-            viewModel.setTab(
-              index == 0 ? GalleryTab.flat : GalleryTab.design3d,
-            );
-          },
-          tabs: [
-            Tab(text: FlutterI18n.translate(context, 'gallery.flat_tab')),
-            Tab(text: FlutterI18n.translate(context, 'gallery.3d_tab')),
-          ],
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        backgroundColor: AppColors.background,
+        appBar: AppBar(
+          title: Text(FlutterI18n.translate(context, 'gallery.title')),
+          automaticallyImplyLeading: false,
+          bottom: TabBar(
+            onTap: (index) {
+              viewModel.setTab(
+                index == 0 ? GalleryTab.flat : GalleryTab.design3d,
+              );
+            },
+            tabs: [
+              Tab(text: FlutterI18n.translate(context, 'gallery.flat_tab')),
+              Tab(text: FlutterI18n.translate(context, 'gallery.3d_tab')),
+            ],
+          ),
         ),
+        body: state.isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : RefreshIndicator(
+                onRefresh: () => viewModel.loadDesigns(),
+                child: _buildGalleryGrid(context, state, viewModel),
+              ),
       ),
-      body: state.isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : RefreshIndicator(
-              onRefresh: () => viewModel.loadDesigns(),
-              child: _buildGalleryGrid(context, state, viewModel),
-            ),
     );
   }
 
@@ -154,17 +157,45 @@ class GalleryPage extends ConsumerWidget {
           constraints: const BoxConstraints(maxWidth: 600, maxHeight: 800),
           child: Column(
             children: [
+              // 右上角下载按钮
+              Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                  padding: const EdgeInsets.all(AppSpacing.sm),
+                  child: IconButton(
+                    onPressed: () async {
+                      final imageUrl = await viewModel.downloadDesign(item.id, item.type);
+                      if (imageUrl != null && context.mounted) {
+                        try {
+                          final fileName =
+                              'design_${item.id}_${DateTime.now().millisecondsSinceEpoch}.png';
+                          final path = await DownloadHelper.downloadImage(context, imageUrl, fileName);
+                          if (path != null && context.mounted) {
+                            DownloadHelper.showDownloadSuccess(context, path);
+                          }
+                        } catch (e) {
+                          if (context.mounted) {
+                            DownloadHelper.showDownloadError(context, e.toString());
+                          }
+                        }
+                      }
+                    },
+                    icon: const Icon(Icons.download),
+                    tooltip: FlutterI18n.translate(context, 'gallery.download'),
+                    style: IconButton.styleFrom(
+                      backgroundColor: AppColors.surface,
+                      foregroundColor: AppColors.primary,
+                    ),
+                  ),
+                ),
+              ),
               Expanded(
                 child: Image.network(
                   item.imageUrl,
                   fit: BoxFit.contain,
                   errorBuilder: (_, __, ___) => Container(
                     color: AppColors.grey100,
-                    child: Icon(
-                      Icons.image_not_supported,
-                      size: 80,
-                      color: AppColors.grey300,
-                    ),
+                    child: Icon(Icons.image_not_supported, size: 80, color: AppColors.grey300),
                   ),
                 ),
               ),
@@ -173,37 +204,6 @@ class GalleryPage extends ConsumerWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    IconButton(
-                      onPressed: () async {
-                        final imageUrl = await viewModel.downloadDesign(
-                          item.id,
-                          item.type,
-                        );
-                        if (imageUrl != null && context.mounted) {
-                          try {
-                            final fileName =
-                                'design_${item.id}_${DateTime.now().millisecondsSinceEpoch}.png';
-                            final path = await DownloadHelper.downloadImage(
-                              context,
-                              imageUrl,
-                              fileName,
-                            );
-                            if (path != null && context.mounted) {
-                              DownloadHelper.showDownloadSuccess(context, path);
-                            }
-                          } catch (e) {
-                            if (context.mounted) {
-                              DownloadHelper.showDownloadError(
-                                context,
-                                e.toString(),
-                              );
-                            }
-                          }
-                        }
-                      },
-                      icon: const Icon(Icons.download),
-                      tooltip: FlutterI18n.translate(context, 'gallery.download'),
-                    ),
                     IconButton(
                       onPressed: () {
                         Navigator.of(context).pop();
@@ -216,19 +216,12 @@ class GalleryPage extends ConsumerWidget {
                       IconButton(
                         onPressed: () async {
                           Navigator.of(context).pop();
-                          // 获取平面图详情以获取 imageUrl
-                          final imageUrl = await viewModel.downloadDesign(
-                            item.id,
-                            item.type,
-                          );
+                          final imageUrl = await viewModel.downloadDesign(item.id, item.type);
                           if (context.mounted) {
-                            context.push(
-                              RouteName.design3d,
-                              extra: {
-                                'flatDesignId': item.id,
-                                'flatImageUrl': imageUrl,
-                              },
-                            );
+                            context.push(RouteName.design3d, extra: {
+                              'flatDesignId': item.id,
+                              'flatImageUrl': imageUrl,
+                            });
                           }
                         },
                         icon: const Icon(Icons.view_in_ar),

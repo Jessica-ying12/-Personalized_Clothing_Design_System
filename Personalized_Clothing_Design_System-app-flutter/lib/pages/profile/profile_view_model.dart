@@ -1,58 +1,51 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../core/providers/service_providers.dart';
-import '../../core/supabase/auth/auth_repository.dart';
+import '../../core/services/auth_service.dart';
+import '../../core/storage/secure_storage.dart';
 import 'profile_state.dart';
 
 class ProfileViewModel extends Notifier<ProfileState> {
   @override
   ProfileState build() {
-    loadProfile();
+    Future.microtask(() => loadProfile());
     return const ProfileState();
   }
 
   Future<void> loadProfile() async {
     state = state.copyWith(isLoading: true);
-
     try {
-      // 从 Supabase session 直接获取基础信息
-      final user = Supabase.instance.client.auth.currentUser;
-      if (user == null) {
-        state = state.copyWith(isLoading: false);
-        return;
-      }
-
-      // 从 profile-api 获取 profile 数据（含 full_name / avatar_url）
-      final profileService = ref.read(profileServiceProvider);
-      // getStats 顺带验证 token 有效性，profile 数据通过 auth-api /me 获取
-      // 这里直接用 Supabase user_metadata 作为 fallback
-      final meta = user.userMetadata;
-
+      final authService = ref.read(authServiceProvider);
+      final user = await authService.getMe();
       state = state.copyWith(
         isLoading: false,
-        email: user.email ?? '',
-        nickname: meta?['full_name'] as String?,
-        avatarUrl: meta?['avatar_url'] as String?,
+        email: user.email,
+        nickname: user.fullName,
+        avatarUrl: user.avatarUrl,
       );
-
-      // 异步加载 stats（不阻塞 UI）
-      _loadStats(profileService);
+      await _loadStats();
     } catch (e) {
-      state = state.copyWith(isLoading: false);
+      // Token 可能过期，从本地读取邮箱作为备用
+      final email = await SecureStorage.getEmail();
+      state = state.copyWith(isLoading: false, email: email ?? '');
     }
   }
 
-  Future<void> _loadStats(dynamic profileService) async {
+  Future<void> _loadStats() async {
     try {
-      final stats = await profileService.getStats();
+      final stats = await ref.read(profileServiceProvider).getStats();
       state = state.copyWith(stats: stats);
     } catch (_) {}
   }
 
+  void refreshStats() {
+    Future.microtask(() => _loadStats());
+  }
+
   Future<bool> logout() async {
     try {
-      await ref.read(authRepositoryProvider).signOut();
+      final authService = ref.read(authServiceProvider);
+      await authService.logout();
       return true;
     } catch (e) {
       return false;
@@ -61,10 +54,8 @@ class ProfileViewModel extends Notifier<ProfileState> {
 
   Future<bool> deleteAccount() async {
     try {
-      final profileService = ref.read(profileServiceProvider);
-      await profileService.deleteAccount();
-      // deleteAccount 后端会级联删除，signOut 清理本地 session
-      await ref.read(authRepositoryProvider).signOut();
+      await ref.read(profileServiceProvider).deleteAccount();
+      await SecureStorage.clear();
       return true;
     } catch (e) {
       return false;

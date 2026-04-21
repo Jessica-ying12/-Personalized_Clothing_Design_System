@@ -14,6 +14,7 @@ class Design3dState {
     this.generated3dImageUrl,
     this.generated3dDesignId,
     this.regenerateCount = 0,
+    this.flatRegenerateCount = 0,
     this.showFlat = false,
     this.bodyTypeOptions = const [],
     this.skinToneOptions = const [],
@@ -35,6 +36,7 @@ class Design3dState {
   final String? generated3dImageUrl;
   final String? generated3dDesignId;
   final int regenerateCount;
+  final int flatRegenerateCount;
   final bool showFlat;
   final List<DesignOptionModel> bodyTypeOptions;
   final List<DesignOptionModel> skinToneOptions;
@@ -52,6 +54,7 @@ class Design3dState {
       selectedBackground != null;
 
   bool get canRegenerate => regenerateCount < 1;
+  bool get canRegenerateFlat => flatRegenerateCount < 2;
 
   Design3dState copyWith({
     String? flatImageUrl,
@@ -66,6 +69,7 @@ class Design3dState {
     String? generated3dImageUrl,
     String? generated3dDesignId,
     int? regenerateCount,
+    int? flatRegenerateCount,
     bool? showFlat,
     List<DesignOptionModel>? bodyTypeOptions,
     List<DesignOptionModel>? skinToneOptions,
@@ -87,6 +91,7 @@ class Design3dState {
       generated3dImageUrl: generated3dImageUrl ?? this.generated3dImageUrl,
       generated3dDesignId: generated3dDesignId ?? this.generated3dDesignId,
       regenerateCount: regenerateCount ?? this.regenerateCount,
+      flatRegenerateCount: flatRegenerateCount ?? this.flatRegenerateCount,
       showFlat: showFlat ?? this.showFlat,
       bodyTypeOptions: bodyTypeOptions ?? this.bodyTypeOptions,
       skinToneOptions: skinToneOptions ?? this.skinToneOptions,
