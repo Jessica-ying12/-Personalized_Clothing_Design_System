@@ -51,6 +51,7 @@
 		"@tiptap/pm": "^2.10.3",
 		"@tiptap/starter-kit": "^2.10.3",
 		"@tiptap/vue-3": "^2.10.3",
+		"@vicons/ionicons5": "^0.13.0",
 		"@vueuse/components": "^13.2.0",
 		"@vueuse/core": "^13.2.0",
 		"apexcharts": "3.54.1",

@@ -81,26 +81,45 @@ function createMenus(route: any): MenuMixedOption | undefined {
 
 // eslint-disable-next-line unused-imports/no-unused-vars
 export default function getItems(args: { mode: "vertical" | "horizontal"; collapsed: boolean }): MenuMixedOption[] {
-	const routerStore = useRouterStore()
-	const menus: MenuMixedOption[] = []
-	menus.push({
-		label: () =>
-			h(
-				RouterLink,
+	return [
+		{
+			label: () => h(RouterLink, { to: { name: "Index" } }, { default: () => "首页" }),
+			key: "Index",
+			icon: renderIcon("carbon:home"),
+		},
+		{
+			label: "用户管理",
+			key: "PcdsUsers",
+			icon: renderIcon("carbon:user-multiple"),
+			children: [
 				{
-					to: {
-						name: "Index"
-					}
+					label: () => h(RouterLink, { to: { name: "PcdsUsers" } }, { default: () => "用户列表" }),
+					key: "PcdsUsersList",
+					icon: renderIcon("carbon:user"),
 				},
-				{ default: () => "首页" }
-			),
-		key: "Index",
-		icon: renderIcon(HomeIcon)
-	})
-	const routes = routerStore.menusList
-	routes.forEach(route => {
-		const m = createMenus(route)
-		if (m) menus.push(m)
-	})
-	return menus
+			],
+		},
+		{
+			label: "设计管理",
+			key: "PcdsDesign",
+			icon: renderIcon("carbon:image"),
+			children: [
+				{
+					label: () => h(RouterLink, { to: { name: "PcdsFlatDesigns" } }, { default: () => "平面图管理" }),
+					key: "PcdsFlatDesigns",
+					icon: renderIcon("carbon:image"),
+				},
+				{
+					label: () => h(RouterLink, { to: { name: "Pcds3dDesigns" } }, { default: () => "立体图管理" }),
+					key: "Pcds3dDesigns",
+					icon: renderIcon("carbon:cube"),
+				},
+			],
+		},
+		{
+			label: () => h(RouterLink, { to: { name: "PcdsDesignOptions" } }, { default: () => "设计选项管理" }),
+			key: "PcdsDesignOptions",
+			icon: renderIcon("carbon:settings"),
+		},
+	]
 }
