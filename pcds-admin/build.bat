@@ -9,9 +9,9 @@ set "DEFAULT_PORT=80"
 set "HOST_PORT=8080"
 
 :: 镜像仓库配置
-set "REGISTRY=192.168.11.42:5000"
-set "NAMESPACE=hammer"
-set "IMAGE_NAME=hammer-admin-frontend"
+set "REGISTRY=registry.example.com:5000"
+set "NAMESPACE=pcds"
+set "IMAGE_NAME=pcds-admin-frontend"
 
 :: 自动获取镜像标签（基于 Git 分支）
 call :get_git_info

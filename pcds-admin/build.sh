@@ -17,9 +17,9 @@ DEFAULT_PORT=80                                # 容器内端口 (Nginx 默认�
 HOST_PORT=8080                                 # 主机映射端口
 
 # 镜像仓库配置
-REGISTRY="192.168.11.42:5000"
-NAMESPACE="hammer"
-IMAGE_NAME="hammer-admin-frontend"             # 镜像名称
+REGISTRY="registry.example.com:5000"
+NAMESPACE="pcds"
+IMAGE_NAME="pcds-admin-frontend"             # 镜像名称
 
 # 自动获取镜像标签（基于 Git 分支）
 if [ -d ".git" ]; then

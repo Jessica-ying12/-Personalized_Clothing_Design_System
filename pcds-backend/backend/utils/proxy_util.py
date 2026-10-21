@@ -25,8 +25,8 @@ def with_proxy(
 
         @with_proxy(
             proxy_enable=True,
-            proxy_https='http://192.168.11.42:5081',
-            proxy_http='http://192.168.11.42:5081',
+            proxy_https='http://127.0.0.1:5081',
+            proxy_http='http://127.0.0.1:5081',
             no_proxy='localhost,127.0.0.1,*.local'
         )
         def send_request():

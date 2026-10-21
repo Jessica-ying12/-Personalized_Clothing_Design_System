@@ -1,5 +1,5 @@
 # 设置环境变量
-ARG DOMAIN_ADMIN="http:\/\/192.168.11.42:9089"
+ARG DOMAIN_ADMIN="http:\/\/api.example.com:9089"
 # 请求默认前缀
 ARG DOMAIN_ADMIN_PREFIX="\/prod-api"
 
